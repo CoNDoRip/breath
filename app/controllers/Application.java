@@ -41,13 +41,15 @@ public class Application extends Controller {
     */
 	public static Result sayHello() {
 		JsonNode json = request().body().asJson();
+		ObjectNode result = Json.newObject();
 		if (json == null) {
-			return badRequest("Expecting Json data");
+			result.put("status", "Bad request");
+			result.put("message", "Expecting Json data");
+			return badRequest(result);
         } else {
-			ObjectNode result = Json.newObject();
 			String name = json.findPath("name").getTextValue();
 			if(name == null) {
-				result.put("status", "KO");
+				result.put("status", "Bad request");
 				result.put("message", "Missing parameter [name]");
 				return badRequest(result);
 			} else {
