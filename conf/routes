@@ -2,8 +2,14 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
+# Default path will just redirect to the API v1
 GET     /                           controllers.Application.index()
+
+# API v1
+# Test JSON response
+GET     /api/v1/hello               controllers.Application.hello()
+# Send your name in JSON data
+POST    /api/v1                     controllers.Application.sayHello()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
