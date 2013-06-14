@@ -83,4 +83,12 @@ public class Profile {
         JPA.em().remove(this);
     }
 
+    public static String login(String email, String password) {
+        Query q = JPA.em().createQuery("SELECT first_name FROM Profile WHERE lower(email) = :em and password = :pw");
+        q.setParameter("em", email.toLowerCase());
+        q.setParameter("pw", password);
+        String name = (String)q.getSingleResult();
+        return name;
+    }
+
 }
