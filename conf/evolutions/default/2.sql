@@ -3,9 +3,9 @@
 INSERT INTO Profile (email, password, first_name, last_name, gender) 
           VALUES ('cndr.ip@gmail.com', 'password', 'Idel', 'Pivnitskiy', 'M');
 INSERT INTO Profile (email, password, first_name, last_name, gender) 
-          VALUES ('artyom.keydunov@gmail.com', 'password', 'Artyom', 'Keydunov', 'M');
+          VALUES ('patric@mail.ru', 'password', 'Patric', 'Grey', 'M');
 INSERT INTO Profile (email, password, first_name, last_name, gender) 
-          VALUES ('shch.dima@yandex.ru', 'password', 'Dmitry', 'Shchetinin', 'M');
+          VALUES ('eva@mail.ru', 'password', 'Eva', 'Jones', 'F');
 
 
 # --- !Downs
