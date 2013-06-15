@@ -34,10 +34,9 @@ public class Authorization extends Controller {
 				result.put("message", "Missing parameter [password]");
 				return badRequest(result);
         	}
-        	String name = Profile.login(email, password);
-        	result.put("status", "OK");
-			result.put("message", "Hello, " + name + "!");
-			return ok(result);
+        	
+        	Long id = Profile.login(email, password);
+			return redirect(routes.ProfilePage.getProfile(id));
         }
 	}
 

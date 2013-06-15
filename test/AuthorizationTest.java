@@ -17,23 +17,6 @@ import static org.fluentlenium.core.filter.FilterConstructor.*;
 public class AuthorizationTest {
 
     /**
-    * curl -v -X POST http://localhost:9000/api/v1/login --header "Content-Type:application/json" --data '{"email": "patric@mail.ru", "password": "password"}'
-    */
-    //@Test
-    //public void redirectToProfile() {
-    //    Map<String,String> map = new HashMap<String,String>();
-    //    map.put("email", "patric@mail.ru");
-    //    map.put("password", "password");
-    //    JsonNode node = Json.toJson(map);
-    //    Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
-    //                    .withJsonBody(node));
-    //
-    //    assertThat(result).isNotNull();
-    //    assertThat(status(result)).isEqualTo(SEE_OTHER);
-    //    assertThat(redirectLocation(result).contains("/api/v1/profile/2"));
-    //}
-
-    /**
     * curl -v -X POST http://localhost:9000/api/v1/login
     */
     @Test
@@ -51,7 +34,9 @@ public class AuthorizationTest {
     }
 
     /**
-    * curl -v -X POST http://localhost:9000/api/v1/login --header "Content-Type:application/json" --data '{"no-email": "patric@mail.ru", "password": "password"}'
+    * curl -v -X POST http://localhost:9000/api/v1/login 
+    *      --header "Content-Type:application/json" 
+    *      --data '{"no-email": "patric@mail.ru", "password": "password"}'
     */
     @Test
     public void postWithoutEmail() {
@@ -73,7 +58,9 @@ public class AuthorizationTest {
     }
 
     /**
-    * curl -v -X POST http://localhost:9000/api/v1/login --header "Content-Type:application/json" --data '{"email": "patric@mail.ru", "no-password": "password"}'
+    * curl -v -X POST http://localhost:9000/api/v1/login 
+    *      --header "Content-Type:application/json" 
+    *      --data '{"email": "patric@mail.ru", "no-password": "password"}'
     */
     @Test
     public void postWithoutPassword() {
@@ -95,10 +82,12 @@ public class AuthorizationTest {
     }
 
     /**
-    * curl -v -X POST http://localhost:9000/api/v1/login --header "Content-Type:application/json" --data '{"email": "patric@mail.ru", "password": "password"}'
+    * curl -v -X POST http://localhost:9000/api/v1/login 
+    *      --header "Content-Type:application/json" 
+    *      --data '{"email": "patric@mail.ru", "password": "password"}'
     */
     @Test
-    public void postWithPatricsEmail() {
+    public void redirectToPatricProfile() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Map<String,String> map = new HashMap<String,String>();
@@ -107,11 +96,10 @@ public class AuthorizationTest {
                 JsonNode node = Json.toJson(map);
                 Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
                                 .withJsonBody(node));
-                
-                assertThat(status(result)).isEqualTo(OK);
-                assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(charset(result)).isEqualTo("utf-8");
-                assertThat(contentAsString(result)).contains("Hello, Patric!");
+
+                assertThat(result).isNotNull();
+                assertThat(status(result)).isEqualTo(SEE_OTHER);
+                assertThat(redirectLocation(result).equals("/api/v1/profile/5"));
             }
         });
     }

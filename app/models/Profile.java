@@ -36,7 +36,7 @@ public class Profile {
     
     public Date birthday;
     
-    public char gender;
+    public Character gender;
     
     @Constraints.Min(value=1)
     public Integer level;
@@ -83,12 +83,12 @@ public class Profile {
         JPA.em().remove(this);
     }
 
-    public static String login(String email, String password) {
-        Query q = JPA.em().createQuery("SELECT first_name FROM Profile WHERE lower(email) = :em and password = :pw");
+    public static Long login(String email, String password) {
+        Query q = JPA.em().createQuery("SELECT id FROM Profile WHERE lower(email) = :em and password = :pw");
         q.setParameter("em", email.toLowerCase());
         q.setParameter("pw", password);
-        String name = (String)q.getSingleResult();
-        return name;
+        Long id = (Long)q.getSingleResult();
+        return id;
     }
 
 }
