@@ -13,6 +13,14 @@ import play.libs.Json;
 
 public class Authorization extends Controller {
 
+	public static Result needLogin() {
+		ObjectNode result = Json.newObject();
+		result.put("status", "Unauthorized");
+		result.put("message", "Unauthorized user, please login");
+		result.put("url", "/api/v1/login");
+		return unauthorized(result);
+	}
+
 	@Transactional(readOnly=true)
 	public static Result login() {
 		ObjectNode result = Json.newObject();
@@ -34,7 +42,7 @@ public class Authorization extends Controller {
 				result.put("message", "Missing parameter [password]");
 				return badRequest(result);
         	}
-        	
+        	// All data exists, start authenticate the user
         	Long id = Profile.login(email, password);
 			return redirect(routes.ProfilePage.getProfile(id));
         }

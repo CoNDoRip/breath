@@ -17,17 +17,6 @@ import static org.fluentlenium.core.filter.FilterConstructor.*;
 public class ApiTest {
 
     /**
-    * curl -v http://localhost:9000/
-    */
-    @Test
-    public void redirectToApi() {
-        Result result = routeAndCall(fakeRequest());
-        assertThat(result).isNotNull();
-        assertThat(status(result)).isEqualTo(SEE_OTHER);
-        assertThat(redirectLocation(result).equals("/api/v1/hello"));
-    }
-
-    /**
     * curl -v http://localhost:9000/api/v1/hello
     */
     @Test
@@ -87,24 +76,6 @@ public class ApiTest {
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
         assertThat(contentAsString(result)).contains("Hello, Patric!");
-    }
-
-    /**
-    * curl -v http://localhost:9000/api/v1/xx/Kiki
-    */
-    @Test
-    public void badRoute() {
-        Result result = routeAndCall(fakeRequest(GET, "/xx/Kiki"));
-        assertThat(result).isNull();
-    }
-
-    /**
-    * curl -v http://localhost:9000/
-    */
-    @Test
-    public void goodRoute() {
-        Result result = routeAndCall(fakeRequest(GET, "/"));
-        assertThat(result).isNotNull();
     }
   
 }

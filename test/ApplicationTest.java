@@ -27,10 +27,17 @@ import static org.fest.assertions.Assertions.*;
 */
 public class ApplicationTest {
 
-    @Test 
-    public void simpleCheck() {
-        int a = 1 + 1;
-        assertThat(a).isEqualTo(2);
+    /**
+    * Test redirect to login page for unauthorized users
+    * curl -v http://localhost:9000/
+    */
+    @Test
+    public void redirectUnauthorizedUserToLoginPage() {
+        Result result = routeAndCall(fakeRequest());
+
+        assertThat(result).isNotNull();
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat(redirectLocation(result).equals("/api/v1/login"));
     }
     
     @Test
@@ -38,7 +45,6 @@ public class ApplicationTest {
         Content html = views.html.index.render("Your new application is ready.");
         assertThat(contentType(html)).isEqualTo("text/html");
         assertThat(contentAsString(html)).contains("Your new application is ready.");
-    }
-  
+    }  
    
 }

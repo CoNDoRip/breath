@@ -15,15 +15,13 @@ public class Application extends Controller {
      * Handle default path requests, redirect to API v1
      */
     public static Result index() {
-        return APIv1;
+    	String email = session("connected");
+  		if(email != null) {
+  			return redirect(routes.Application.hello());
+  		} else {
+			return redirect(routes.Authorization.needLogin());
+  		}
     }
-
-    /**
-     * This result directly redirect to API v1
-     */
-    public static Result APIv1 = redirect(
-        routes.Application.hello()
-    );
 
     /**
     * Simple API response that say Hello to anybody

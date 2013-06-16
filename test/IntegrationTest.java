@@ -23,7 +23,7 @@ public class IntegrationTest {
             public void run() {
                assertThat(
                  WS.url("http://localhost:3333").get().get().getStatus()
-               ).isEqualTo(OK);
+               ).isEqualTo(UNAUTHORIZED);
             }
         });
     }
