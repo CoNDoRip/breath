@@ -17,13 +17,13 @@ import static org.fluentlenium.core.filter.FilterConstructor.*;
 public class ProfilePageTest {
 
     /**
-    * curl -v http://localhost:9000/api/v1/profile/5
+    * curl -v http://localhost:9000/api/v1/profile/id5
     */
     @Test
     public void getProfile5() {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                Result result = routeAndCall(fakeRequest(GET, "/api/v1/profile/5"));
+                Result result = routeAndCall(fakeRequest(GET, "/api/v1/profile/id5"));
 
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentType(result)).isEqualTo("application/json");
