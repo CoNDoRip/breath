@@ -28,7 +28,7 @@ public class ApiTest {
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
         assertThat(contentAsString(result)).isEqualTo(
-            "{\"code\":200,\"status\":\"OK\",\"message\":\"Hello my friend!\"}"
+            "{\"message\":\"Hello my friend!\"}"
             );
     }
 
@@ -44,7 +44,7 @@ public class ApiTest {
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
         assertThat(contentAsString(result)).isEqualTo(
-            "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Expecting Json data\"}"
+            "{\"message\":\"Expecting Json data\"}"
             );
     }
 
@@ -65,7 +65,7 @@ public class ApiTest {
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
         assertThat(contentAsString(result)).isEqualTo(
-            "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Missing parameter [name]\"}"
+            "{\"message\":\"Missing parameter [name]\"}"
             );
     }
 
@@ -86,7 +86,7 @@ public class ApiTest {
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
         assertThat(contentAsString(result)).isEqualTo(
-            "{\"code\":200,\"status\":\"OK\",\"message\":\"Hello, Patric!\"}"
+            "{\"message\":\"Hello, Patric!\"}"
             );
     }
   

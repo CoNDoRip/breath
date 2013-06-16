@@ -29,7 +29,7 @@ public class AuthorizationTest {
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
                 assertThat(contentAsString(result)).isEqualTo(
-                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Expecting Json data\"}"
+                    "{\"message\":\"Expecting Json data\"}"
                 );
             }
         });
@@ -55,7 +55,7 @@ public class AuthorizationTest {
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
                 assertThat(contentAsString(result)).isEqualTo(
-                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Missing parameter [email]\"}"
+                    "{\"message\":\"Missing parameter [email]\"}"
                     );
             }
         });
@@ -81,7 +81,7 @@ public class AuthorizationTest {
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
                 assertThat(contentAsString(result)).isEqualTo(
-                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Missing parameter [password]\"}"
+                    "{\"message\":\"Missing parameter [password]\"}"
                     );
             }
         });
@@ -103,11 +103,11 @@ public class AuthorizationTest {
                 Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
                                 .withJsonBody(node));
 
-                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                assertThat(status(result)).isEqualTo(UNAUTHORIZED);
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
                 assertThat(contentAsString(result)).isEqualTo(
-                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Invalid email or password\"}"
+                    "{\"message\":\"Invalid email or password\"}"
                     );
             }
         });

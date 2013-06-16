@@ -12,7 +12,6 @@ GET     /api/v1/hello               controllers.Application.hello()
 POST    /api/v1                     controllers.Application.sayHello()
 
 # Authorization
-GET     /api/v1/login               controllers.Authorization.needLogin()
 POST    /api/v1/login               controllers.Authorization.login()
 
 # ProfilePage

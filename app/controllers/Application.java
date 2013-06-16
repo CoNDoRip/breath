@@ -17,9 +17,12 @@ public class Application extends Controller {
     public static Result index() {
     	String id = session("id");
   		if(id != null) {
-  			return redirect(routes.Application.hello());
+  			Long profileId = Long.valueOf(id).longValue();
+  			return redirect(routes.ProfilePage.getProfile(profileId));
   		} else {
-			return redirect(routes.Authorization.needLogin());
+			ObjectNode result = Json.newObject();
+			result.put("message", "Unauthorized user, please login");
+			return unauthorized(result);
   		}
     }
 
@@ -28,8 +31,6 @@ public class Application extends Controller {
     */
 	public static Result errorResponse(String message) {
 		ObjectNode result = Json.newObject();
-		result.put("code", 400);
-		result.put("status",  "Bad request");
 		result.put("message", message);
 		return badRequest(result);
 	}
@@ -39,8 +40,6 @@ public class Application extends Controller {
     */
 	public static Result hello() {
 		ObjectNode result = Json.newObject();
-		result.put("code", 200);
-		result.put("status", "OK");
 		result.put("message", "Hello my friend!");
 		return ok(result);
 	}
@@ -59,8 +58,6 @@ public class Application extends Controller {
 				return errorResponse("Missing parameter [name]");
 			} else {
 				ObjectNode result = Json.newObject();
-				result.put("code", 200);
-				result.put("status", "OK");
 				result.put("message", "Hello, " + name + "!");
 				return ok(result);
 			}
