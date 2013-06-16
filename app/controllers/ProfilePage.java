@@ -11,6 +11,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
 
+@Security.Authenticated(Secured.class)
 public class ProfilePage extends Controller {
 
 	@Transactional(readOnly=true)
