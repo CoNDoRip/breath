@@ -28,7 +28,9 @@ public class AuthorizationTest {
                 assertThat(status(result)).isEqualTo(BAD_REQUEST);
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
-                assertThat(contentAsString(result)).contains("Expecting Json data");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Expecting Json data\"}"
+                );
             }
         });
     }
@@ -52,7 +54,9 @@ public class AuthorizationTest {
                 assertThat(status(result)).isEqualTo(BAD_REQUEST);
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
-                assertThat(contentAsString(result)).contains("Missing parameter [email]");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Missing parameter [email]\"}"
+                    );
             }
         });
     }
@@ -76,7 +80,35 @@ public class AuthorizationTest {
                 assertThat(status(result)).isEqualTo(BAD_REQUEST);
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
-                assertThat(contentAsString(result)).contains("Missing parameter [password]");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Missing parameter [password]\"}"
+                    );
+            }
+        });
+    }
+
+    /**
+    * curl -v -X POST http://localhost:9000/api/v1/login 
+    *      --header "Content-Type:application/json" 
+    *      --data '{"email": "patric@mail.ru", "password": "1234"}'
+    */
+    @Test
+    public void postWithInvalidPassword() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Map<String,String> map = new HashMap<String,String>();
+                map.put("email", "patric@mail.ru");
+                map.put("password", "1234");
+                JsonNode node = Json.toJson(map);
+                Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
+                                .withJsonBody(node));
+
+                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                assertThat(contentType(result)).isEqualTo("application/json");
+                assertThat(charset(result)).isEqualTo("utf-8");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Invalid email or password\"}"
+                    );
             }
         });
     }
@@ -99,7 +131,9 @@ public class AuthorizationTest {
 
                 assertThat(result).isNotNull();
                 assertThat(status(result)).isEqualTo(SEE_OTHER);
-                assertThat(redirectLocation(result).equals("/api/v1/profile/5"));
+                assertThat(redirectLocation(result).equals("/api/v1/profile/id2"));
+                //assertThat(cookie("id", result)).isEqualTo(2);
+                //assertThat(cookie("hash", result)).isEqualTo("0aa371f7f51bd1312cef02e827f35122c46aa011");
             }
         });
     }

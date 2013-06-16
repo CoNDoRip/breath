@@ -17,20 +17,20 @@ import static org.fluentlenium.core.filter.FilterConstructor.*;
 public class ProfilePageTest {
 
     /**
-    * curl -v http://localhost:9000/api/v1/profile/id5
+    * curl -v http://localhost:9000/api/v1/profile/id2
     */
     @Test
     public void getProfile5() {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                Result result = routeAndCall(fakeRequest(GET, "/api/v1/profile/id5"));
+                Result result = routeAndCall(fakeRequest(GET, "/api/v1/profile/id2"));
 
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
                 assertThat(contentAsString(result).length()).isEqualTo(62);
                 assertThat(contentAsString(result)).contains(
-                    "{\"id\":5,\"first_name\":\"Patric\",\"last_name\":\"Grey\",\"gender\":\"M\"}"
+                    "{\"id\":2,\"first_name\":\"Patric\",\"last_name\":\"Grey\",\"gender\":\"M\"}"
                 );
             }
         });
