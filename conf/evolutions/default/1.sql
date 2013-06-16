@@ -6,8 +6,8 @@ CREATE SEQUENCE Profile_seq START WITH 1;
 
 CREATE TABLE Profile (
    id             NUMERIC         PRIMARY KEY    DEFAULT nextval('Profile_seq')
-  ,email		      VARCHAR(30)     NOT NULL
-  ,password       CHAR(30)        NOT NULL       --hashsum of password
+  ,email		      VARCHAR(30)     UNIQUE
+  ,password       CHAR(40)        NOT NULL       --hashsum of password
   ,username       VARCHAR(30)                    --nick name or login
   ,first_name     VARCHAR(30)     
   ,last_name      VARCHAR(30)     
