@@ -15,8 +15,8 @@ public class Application extends Controller {
      * Handle default path requests, redirect to API v1
      */
     public static Result index() {
-    	String email = session("connected");
-  		if(email != null) {
+    	String id = session("id");
+  		if(id != null) {
   			return redirect(routes.Application.hello());
   		} else {
 			return redirect(routes.Authorization.needLogin());
@@ -24,10 +24,22 @@ public class Application extends Controller {
     }
 
     /**
+    * Generate error response with error message
+    */
+	public static Result errorResponse(String message) {
+		ObjectNode result = Json.newObject();
+		result.put("code", 400);
+		result.put("status",  "Bad request");
+		result.put("message", message);
+		return badRequest(result);
+	}
+
+    /**
     * Simple API response that say Hello to anybody
     */
 	public static Result hello() {
 		ObjectNode result = Json.newObject();
+		result.put("code", 200);
 		result.put("status", "OK");
 		result.put("message", "Hello my friend!");
 		return ok(result);
@@ -38,19 +50,16 @@ public class Application extends Controller {
     * JSON response to your request that say Hello to you
     */
 	public static Result sayHello() {
-		ObjectNode result = Json.newObject();
 		JsonNode jsonBody = request().body().asJson();
 		if (jsonBody == null) {
-			result.put("status", "Bad request");
-			result.put("message", "Expecting Json data");
-			return badRequest(result);
+			return errorResponse("Expecting Json data");
         } else {
 			String name = jsonBody.findPath("name").getTextValue();
 			if(name == null) {
-				result.put("status", "Bad request");
-				result.put("message", "Missing parameter [name]");
-				return badRequest(result);
+				return errorResponse("Missing parameter [name]");
 			} else {
+				ObjectNode result = Json.newObject();
+				result.put("code", 200);
 				result.put("status", "OK");
 				result.put("message", "Hello, " + name + "!");
 				return ok(result);
