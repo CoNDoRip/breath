@@ -1,0 +1,11 @@
+# Create archive for deploying on server
+play dist
+
+# Upload new application on server
+scp ./dist/breath-server-1.0-SNAPSHOT.zip condor@87.98.166.84:/home/condor
+
+# Clean all compilling files
+play clean-all
+
+# Connect to the server for running script "deploy"
+ssh -p 22 condor@87.98.166.84
