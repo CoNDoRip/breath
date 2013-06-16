@@ -3,6 +3,7 @@ package controllers;
 import play.*;
 import play.mvc.*;
 import play.db.jpa.*;
+import javax.persistence.NoResultException;
 
 import views.html.*;
 import models.Profile;
@@ -10,6 +11,8 @@ import models.Profile;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
+
+import play.libs.Crypto;
 
 public class Authorization extends Controller {
 
@@ -23,29 +26,34 @@ public class Authorization extends Controller {
 
 	@Transactional(readOnly=true)
 	public static Result login() {
-		ObjectNode result = Json.newObject();
 		JsonNode jsonBody = request().body().asJson();
 		if (jsonBody == null) {
-			result.put("status", "Bad request");
-			result.put("message", "Expecting Json data");
-			return badRequest(result);
+			return Application.errorResponse("Expecting Json data");
         } else {
         	String email = jsonBody.findPath("email").getTextValue();
         	if (email == null) {
-				result.put("status", "Bad request");
-				result.put("message", "Missing parameter [email]");
-				return badRequest(result);
+				return Application.errorResponse("Missing parameter [email]");
         	}
         	String password = jsonBody.findPath("password").getTextValue();
         	if (password == null) {
-				result.put("status", "Bad request");
-				result.put("message", "Missing parameter [password]");
-				return badRequest(result);
+				return Application.errorResponse("Missing parameter [password]");
         	}
         	// All data exists, start authenticate the user
-        	Long id = Profile.login(email, password);
-			return redirect(routes.ProfilePage.getProfile(id));
+        	String hash = hashPassword(password);
+        	Long id;
+        	try {
+        		id = Profile.login(email, hash);
+        		session("id", id.toString());
+        		session("hash", hash);
+				return redirect(routes.ProfilePage.getProfile(id));
+        	} catch (NoResultException e) {
+				return Application.errorResponse("Invalid email or password");
+        	}
         }
+	}
+
+	private static String hashPassword(String password) {
+		return Crypto.sign(password);
 	}
 
 }
