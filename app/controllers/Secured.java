@@ -4,7 +4,8 @@ import play.*;
 import play.mvc.*;
 import play.mvc.Http.*;
 
-import models.*;
+import org.codehaus.jackson.node.ObjectNode;
+import play.libs.Json;
 
 public class Secured extends Security.Authenticator {
     
@@ -15,7 +16,10 @@ public class Secured extends Security.Authenticator {
     
     @Override
     public Result onUnauthorized(Context ctx) {
-        return redirect(routes.Authorization.needLogin());
+        //return redirect(routes.Authorization.needLogin());
+        ObjectNode result = Json.newObject();
+		result.put("message", "Unauthorized user, please login");
+		return unauthorized(result);
     }
 
 }

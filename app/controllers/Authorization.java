@@ -18,9 +18,7 @@ public class Authorization extends Controller {
 
 	public static Result needLogin() {
 		ObjectNode result = Json.newObject();
-		result.put("status", "Unauthorized");
 		result.put("message", "Unauthorized user, please login");
-		result.put("url", "/api/v1/login");
 		return unauthorized(result);
 	}
 
@@ -28,6 +26,7 @@ public class Authorization extends Controller {
 	public static Result login() {
 		JsonNode jsonBody = request().body().asJson();
 		if (jsonBody == null) {
+			// Return HTML!!! Bug
 			return Application.errorResponse("Expecting Json data");
         } else {
         	String email = jsonBody.findPath("email").getTextValue();
@@ -47,7 +46,9 @@ public class Authorization extends Controller {
         		session("hash", hash);
 				return redirect(routes.ProfilePage.getProfile(id));
         	} catch (NoResultException e) {
-				return Application.errorResponse("Invalid email or password");
+        		ObjectNode result = Json.newObject();
+				result.put("message", "Invalid email or password");
+				return unauthorized(result);
         	}
         }
 	}

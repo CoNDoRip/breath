@@ -20,14 +20,17 @@ public class ProfilePageTest {
     * curl -v http://localhost:9000/api/v1/profile/id2
     */
     @Test
-    public void redirectUnauthorizedUserToLoginPage() {
+    public void sayThatYouUnauthorizedUser() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Result result = routeAndCall(fakeRequest(GET, "/api/v1/profile/id2"));
 
-                assertThat(result).isNotNull();
-                assertThat(status(result)).isEqualTo(SEE_OTHER);
-                assertThat(redirectLocation(result).equals("/api/v1/login"));
+                assertThat(status(result)).isEqualTo(UNAUTHORIZED);
+                assertThat(contentType(result)).isEqualTo("application/json");
+                assertThat(charset(result)).isEqualTo("utf-8");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"message\":\"Unauthorized user, please login\"}"
+                );
             }
         });
     }
@@ -55,7 +58,6 @@ public class ProfilePageTest {
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
-                assertThat(contentAsString(result).length()).isEqualTo(62);
                 assertThat(contentAsString(result)).isEqualTo(
                     "{\"id\":2,\"first_name\":\"Patric\",\"last_name\":\"Grey\",\"gender\":\"M\"}"
                 );
