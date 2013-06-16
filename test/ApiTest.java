@@ -27,7 +27,9 @@ public class ApiTest {
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
-        assertThat(contentAsString(result)).contains("Hello my friend!");
+        assertThat(contentAsString(result)).isEqualTo(
+            "{\"code\":200,\"status\":\"OK\",\"message\":\"Hello my friend!\"}"
+            );
     }
 
     /**
@@ -41,11 +43,15 @@ public class ApiTest {
         assertThat(status(result)).isEqualTo(BAD_REQUEST);
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
-        assertThat(contentAsString(result)).contains("Expecting Json data");
+        assertThat(contentAsString(result)).isEqualTo(
+            "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Expecting Json data\"}"
+            );
     }
 
     /**
-    * curl -v -X POST http://localhost:9000/api/v1 --header "Content-Type:application/json" --data '{"no-name": "Patric"}'
+    * curl -v -X POST http://localhost:9000/api/v1 
+    *      --header "Content-Type:application/json" 
+    *      --data '{"no-name": "Patric"}'
     */
     @Test
     public void postWithoutName() {
@@ -58,11 +64,15 @@ public class ApiTest {
         assertThat(status(result)).isEqualTo(BAD_REQUEST);
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
-        assertThat(contentAsString(result)).contains("Missing parameter [name]");
+        assertThat(contentAsString(result)).isEqualTo(
+            "{\"code\":400,\"status\":\"Bad request\",\"message\":\"Missing parameter [name]\"}"
+            );
     }
 
     /**
-    * curl -v -X POST http://localhost:9000/api/v1 --header "Content-Type:application/json" --data '{"name": "Patric"}'
+    * curl -v -X POST http://localhost:9000/api/v1 
+    *      --header "Content-Type:application/json" 
+    *      --data '{"name": "Patric"}'
     */
     @Test
     public void postWithNamePatric() {
@@ -75,7 +85,9 @@ public class ApiTest {
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
-        assertThat(contentAsString(result)).contains("Hello, Patric!");
+        assertThat(contentAsString(result)).isEqualTo(
+            "{\"code\":200,\"status\":\"OK\",\"message\":\"Hello, Patric!\"}"
+            );
     }
   
 }
