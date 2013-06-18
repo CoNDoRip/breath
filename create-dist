@@ -1,0 +1,11 @@
+# Create archive for deploying on server
+play -Dconfig.file=/windows/Git/breath-server/prod/application.conf dist
+
+# Upload new application on server
+scp ./dist/breath-server-1.0-SNAPSHOT.zip breath@37.187.46.135:/home/breath
+
+# Clean all compilling files
+play clean-all
+
+# Connect to the server for running script "deploy"
+ssh -p 22 breath@37.187.46.135
