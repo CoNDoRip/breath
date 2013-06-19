@@ -14,6 +14,9 @@ import play.libs.Json;
 @Security.Authenticated(Secured.class)
 public class ProfilePage extends Controller {
 
+	/**
+	* Get user's profile page by id
+	*/
 	@Transactional(readOnly=true)
 	public static Result getProfile(Long id) {
 		Profile profile = Profile.findById(id);

@@ -34,34 +34,5 @@ public class Application extends Controller {
 		result.put("message", message);
 		return badRequest(result);
 	}
-
-    /**
-    * Simple API response that say Hello to anybody
-    */
-	public static Result hello() {
-		ObjectNode result = Json.newObject();
-		result.put("message", "Hello my friend!");
-		return ok(result);
-	}
-
-
-    /**
-    * JSON response to your request that say Hello to you
-    */
-	public static Result sayHello() {
-		JsonNode jsonBody = request().body().asJson();
-		if (jsonBody == null) {
-			return errorResponse("Expecting Json data");
-        } else {
-			String name = jsonBody.findPath("name").getTextValue();
-			if(name == null) {
-				return errorResponse("Missing parameter [name]");
-			} else {
-				ObjectNode result = Json.newObject();
-				result.put("message", "Hello, " + name + "!");
-				return ok(result);
-			}
-		}
-	}
   
 }
