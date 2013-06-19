@@ -90,6 +90,32 @@ public class AuthorizationTest {
     /**
     * curl -v -X POST http://localhost:9000/api/v1/login 
     *      --header "Content-Type:application/json" 
+    *      --data '{"email": "patric777@mail.ru", "password": "password"}'
+    */
+    @Test
+    public void postWithUnknownEmail() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Map<String,String> map = new HashMap<String,String>();
+                map.put("email", "patric777@mail.ru");
+                map.put("password", "password");
+                JsonNode node = Json.toJson(map);
+                Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
+                                .withJsonBody(node));
+
+                assertThat(status(result)).isEqualTo(UNAUTHORIZED);
+                assertThat(contentType(result)).isEqualTo("application/json");
+                assertThat(charset(result)).isEqualTo("utf-8");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"message\":\"Unknown user\"}"
+                    );
+            }
+        });
+    }
+
+    /**
+    * curl -v -X POST http://localhost:9000/api/v1/login 
+    *      --header "Content-Type:application/json" 
     *      --data '{"email": "patric@mail.ru", "password": "1234"}'
     */
     @Test
@@ -107,7 +133,7 @@ public class AuthorizationTest {
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
                 assertThat(contentAsString(result)).isEqualTo(
-                    "{\"message\":\"Invalid email or password\"}"
+                    "{\"message\":\"Invalid password\"}"
                     );
             }
         });
@@ -119,7 +145,7 @@ public class AuthorizationTest {
     *      --data '{"email": "patric@mail.ru", "password": "password"}'
     */
     @Test
-    public void redirectToPatricProfile() {
+    public void authenticatePatric() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Map<String,String> map = new HashMap<String,String>();
@@ -129,9 +155,12 @@ public class AuthorizationTest {
                 Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
                                 .withJsonBody(node));
 
-                assertThat(result).isNotNull();
-                assertThat(status(result)).isEqualTo(SEE_OTHER);
-                assertThat(redirectLocation(result).equals("/api/v1/profile/id2"));
+                assertThat(status(result)).isEqualTo(CREATED);
+                assertThat(contentType(result)).isEqualTo("application/json");
+                assertThat(charset(result)).isEqualTo("utf-8");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"message\":\"Successful login! Welcome, Patric!\"}"
+                    );
                 //assertThat(cookie("id", result)).isEqualTo(2);
                 //assertThat(cookie("hash", result)).isEqualTo("0aa371f7f51bd1312cef02e827f35122c46aa011");
             }

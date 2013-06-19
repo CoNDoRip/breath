@@ -59,6 +59,18 @@ public class Profile {
     public static Profile findById(Long id) {
         return JPA.em().find(Profile.class, id);
     }
+
+    /**
+    * Find a profile by email
+    */
+    public static Profile findByEmail(String email) {
+        Profile profile = (Profile)JPA.em().createQuery(
+            "from Profile where lower(email) = :em"
+            ).setParameter("em", email.toLowerCase())
+             .getSingleResult();
+
+        return profile;
+    }
     
     /**
      * Insert this new profile.
@@ -81,14 +93,6 @@ public class Profile {
      */
     public void delete() {
         JPA.em().remove(this);
-    }
-
-    public static Long login(String email, String password) {
-        Query q = JPA.em().createQuery("SELECT id FROM Profile WHERE lower(email) = :em and password = :pw");
-        q.setParameter("em", email.toLowerCase());
-        q.setParameter("pw", password);
-        Long id = (Long)q.getSingleResult();
-        return id;
     }
 
 }

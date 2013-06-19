@@ -49,7 +49,8 @@ public class ApplicationTest {
     @Test
     public void redirectAuthorizedUserToProfilePage() {
         FakeRequest fr = fakeRequest();
-        Http.Cookie cookie = new Http.Cookie("PLAY_SESSION"
+        Http.Cookie cookie = new Http.Cookie(
+              "PLAY_SESSION"
             , "49e6efba8019d9c8576880ad26f5090f60f128a8-id%3A2%00hash%3A0aa371f7f51bd1312cef02e827f35122c46aa011"
             , null
             , null
@@ -65,6 +66,9 @@ public class ApplicationTest {
         assertThat(redirectLocation(result).equals("/api/v1/profile/id2"));
     }
     
+    /**
+    * Test render of template
+    */
     @Test
     public void renderTemplate() {
         Content html = views.html.index.render("Your new application is ready.");
