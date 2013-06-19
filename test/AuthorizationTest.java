@@ -4,6 +4,8 @@ import play.mvc.*;
 import play.test.*;
 import play.libs.F.*;
 
+import controllers.Authorization;
+
 import org.codehaus.jackson.JsonNode;
 import play.libs.Json;
 import java.util.Map;
@@ -107,7 +109,7 @@ public class AuthorizationTest {
                 assertThat(contentType(result)).isEqualTo("application/json");
                 assertThat(charset(result)).isEqualTo("utf-8");
                 assertThat(contentAsString(result)).isEqualTo(
-                    "{\"message\":\"Invalid email or password\"}"
+                    "{\"message\":\"Invalid password\"}"
                     );
             }
         });
@@ -119,7 +121,7 @@ public class AuthorizationTest {
     *      --data '{"email": "patric@mail.ru", "password": "password"}'
     */
     @Test
-    public void redirectToPatricProfile() {
+    public void authenticatePatric() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Map<String,String> map = new HashMap<String,String>();
@@ -129,13 +131,16 @@ public class AuthorizationTest {
                 Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
                                 .withJsonBody(node));
 
-                assertThat(result).isNotNull();
-                assertThat(status(result)).isEqualTo(SEE_OTHER);
-                assertThat(redirectLocation(result).equals("/api/v1/profile/id2"));
+                assertThat(status(result)).isEqualTo(CREATED);
+                assertThat(contentType(result)).isEqualTo("application/json");
+                assertThat(charset(result)).isEqualTo("utf-8");
+                assertThat(contentAsString(result)).isEqualTo(
+                    "{\"message\":\"Successful login! Welcome, Patric!\"}"
+                    );
                 //assertThat(cookie("id", result)).isEqualTo(2);
                 //assertThat(cookie("hash", result)).isEqualTo("0aa371f7f51bd1312cef02e827f35122c46aa011");
             }
         });
     }
-  
+
 }

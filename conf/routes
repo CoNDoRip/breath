@@ -6,11 +6,6 @@
 GET     /                           controllers.Application.index()
 
 # API v1
-# Test JSON response
-GET     /api/v1/hello               controllers.Application.hello()
-# Send your name in JSON data
-POST    /api/v1                     controllers.Application.sayHello()
-
 # Authorization
 POST    /api/v1/login               controllers.Authorization.login()
 

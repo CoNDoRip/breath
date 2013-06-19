@@ -16,17 +16,14 @@ import play.libs.Crypto;
 
 public class Authorization extends Controller {
 
-	public static Result needLogin() {
-		ObjectNode result = Json.newObject();
-		result.put("message", "Unauthorized user, please login");
-		return unauthorized(result);
-	}
-
-	@Transactional(readOnly=true)
+	/**
+	* Authenticate existing user or create a new user if this email not exists in DB
+	*/
+	@Transactional
 	public static Result login() {
 		JsonNode jsonBody = request().body().asJson();
 		if (jsonBody == null) {
-			// Return HTML!!! Bug
+			// BUG!!! Return HTML with status 400 if Content-type: application/json
 			return Application.errorResponse("Expecting Json data");
         } else {
         	String email = jsonBody.findPath("email").getTextValue();
@@ -37,22 +34,51 @@ public class Authorization extends Controller {
         	if (password == null) {
 				return Application.errorResponse("Missing parameter [password]");
         	}
-        	// All data exists, start authenticate the user
+
         	String hash = hashPassword(password);
-        	Long id;
+        	Profile profile;
         	try {
-        		id = Profile.login(email, hash);
-        		session("id", id.toString());
-        		session("hash", hash);
-				return redirect(routes.ProfilePage.getProfile(id));
+        		profile = Profile.findByEmail(email);
+        		return authenticate(profile, hash);
         	} catch (NoResultException e) {
-        		ObjectNode result = Json.newObject();
-				result.put("message", "Invalid email or password");
-				return unauthorized(result);
+				return registration(email, hash);
         	}
         }
 	}
 
+	/**
+	* Authenticate existing user
+	*/
+	private static Result authenticate(Profile profile, String hash) {
+        ObjectNode result = Json.newObject();
+
+        if (hash.equals(profile.password)) {
+        	session("id", profile.id.toString());
+        	session("hash", hash);
+        	result.put("message", "Successful login! Welcome, "
+        		                      + profile.first_name + "!");
+			return created(result);
+        } else {
+			result.put("message", "Invalid password");
+			return unauthorized(result);
+        }
+	}
+
+	/**
+	* Registration a new user
+	*/
+	@Transactional
+	private static Result registration(String email, String hash) {
+		
+		Profile profile = new Profile(email, hash);
+		profile.save();
+
+		return authenticate(profile, hash);
+	}
+
+	/**
+	* Calculate hash of password using application.secret as a salt
+	*/
 	private static String hashPassword(String password) {
 		return Crypto.sign(password);
 	}

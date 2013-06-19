@@ -44,7 +44,8 @@ public class ProfilePageTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 FakeRequest fr = fakeRequest(GET, "/api/v1/profile/id2");
-                Http.Cookie cookie = new Http.Cookie("PLAY_SESSION"
+                Http.Cookie cookie = new Http.Cookie(
+                      "PLAY_SESSION"
                     , "49e6efba8019d9c8576880ad26f5090f60f128a8-id%3A2%00hash%3A0aa371f7f51bd1312cef02e827f35122c46aa011"
                     , null
                     , null

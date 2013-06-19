@@ -53,11 +53,40 @@ public class Profile {
     @Constraints.MaxLength(value=500)
     public String status;
 
+    public Profile() {
+    }
+
+    /**
+    * Default constructor for registration
+    * that set default values for fields with constraints
+    * and set specified values of email and password
+    */
+    public Profile(String email, String password) {
+        this.email = email.toLowerCase();
+        this.password = password;
+        this.level  = 1;
+        this.points = 0;
+        this.completed = 0;
+        this.todo_list = 0;
+    }
+
     /**
      * Find a profile by id.
      */
     public static Profile findById(Long id) {
         return JPA.em().find(Profile.class, id);
+    }
+
+    /**
+    * Find a profile by email
+    */
+    public static Profile findByEmail(String email) {
+        Profile profile = (Profile)JPA.em().createQuery(
+            "from Profile where lower(email) = :em"
+            ).setParameter("em", email.toLowerCase())
+             .getSingleResult();
+
+        return profile;
     }
     
     /**
@@ -81,14 +110,6 @@ public class Profile {
      */
     public void delete() {
         JPA.em().remove(this);
-    }
-
-    public static Long login(String email, String password) {
-        Query q = JPA.em().createQuery("SELECT id FROM Profile WHERE lower(email) = :em and password = :pw");
-        q.setParameter("em", email.toLowerCase());
-        q.setParameter("pw", password);
-        Long id = (Long)q.getSingleResult();
-        return id;
     }
 
 }
