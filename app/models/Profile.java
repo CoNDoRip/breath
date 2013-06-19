@@ -53,6 +53,23 @@ public class Profile {
     @Constraints.MaxLength(value=500)
     public String status;
 
+    public Profile() {
+    }
+
+    /**
+    * Default constructor for registration
+    * that set default values for fields with constraints
+    * and set specified values of email and password
+    */
+    public Profile(String email, String password) {
+        this.email = email.toLowerCase();
+        this.password = password;
+        this.level  = 1;
+        this.points = 0;
+        this.completed = 0;
+        this.todo_list = 0;
+    }
+
     /**
      * Find a profile by id.
      */

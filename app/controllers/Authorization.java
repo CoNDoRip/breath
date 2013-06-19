@@ -19,7 +19,7 @@ public class Authorization extends Controller {
 	/**
 	* Authenticate existing user or create a new user if this email not exists in DB
 	*/
-	@Transactional(readOnly=true)
+	@Transactional
 	public static Result login() {
 		JsonNode jsonBody = request().body().asJson();
 		if (jsonBody == null) {
@@ -34,14 +34,14 @@ public class Authorization extends Controller {
         	if (password == null) {
 				return Application.errorResponse("Missing parameter [password]");
         	}
+
+        	String hash = hashPassword(password);
         	Profile profile;
         	try {
         		profile = Profile.findByEmail(email);
-        		return authenticate(profile, password);
+        		return authenticate(profile, hash);
         	} catch (NoResultException e) {
-        		ObjectNode result = Json.newObject();
-				result.put("message", "Unknown user");
-				return unauthorized(result);
+				return registration(email, hash);
         	}
         }
 	}
@@ -49,10 +49,9 @@ public class Authorization extends Controller {
 	/**
 	* Authenticate existing user
 	*/
-	private static Result authenticate(Profile profile, String password) {
+	private static Result authenticate(Profile profile, String hash) {
         ObjectNode result = Json.newObject();
 
-        String hash = hashPassword(password);
         if (hash.equals(profile.password)) {
         	session("id", profile.id.toString());
         	session("hash", hash);
@@ -63,6 +62,18 @@ public class Authorization extends Controller {
 			result.put("message", "Invalid password");
 			return unauthorized(result);
         }
+	}
+
+	/**
+	* Registration a new user
+	*/
+	@Transactional
+	private static Result registration(String email, String hash) {
+		
+		Profile profile = new Profile(email, hash);
+		profile.save();
+
+		return authenticate(profile, hash);
 	}
 
 	/**

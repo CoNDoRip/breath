@@ -4,6 +4,8 @@ import play.mvc.*;
 import play.test.*;
 import play.libs.F.*;
 
+import controllers.Authorization;
+
 import org.codehaus.jackson.JsonNode;
 import play.libs.Json;
 import java.util.Map;
@@ -90,32 +92,6 @@ public class AuthorizationTest {
     /**
     * curl -v -X POST http://localhost:9000/api/v1/login 
     *      --header "Content-Type:application/json" 
-    *      --data '{"email": "patric777@mail.ru", "password": "password"}'
-    */
-    @Test
-    public void postWithUnknownEmail() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Map<String,String> map = new HashMap<String,String>();
-                map.put("email", "patric777@mail.ru");
-                map.put("password", "password");
-                JsonNode node = Json.toJson(map);
-                Result result = routeAndCall(fakeRequest("POST", "/api/v1/login")
-                                .withJsonBody(node));
-
-                assertThat(status(result)).isEqualTo(UNAUTHORIZED);
-                assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(charset(result)).isEqualTo("utf-8");
-                assertThat(contentAsString(result)).isEqualTo(
-                    "{\"message\":\"Unknown user\"}"
-                    );
-            }
-        });
-    }
-
-    /**
-    * curl -v -X POST http://localhost:9000/api/v1/login 
-    *      --header "Content-Type:application/json" 
     *      --data '{"email": "patric@mail.ru", "password": "1234"}'
     */
     @Test
@@ -166,5 +142,5 @@ public class AuthorizationTest {
             }
         });
     }
-  
+
 }
