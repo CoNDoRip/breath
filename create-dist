@@ -2,7 +2,7 @@
 play -Dconfig.file=/windows/Git/breath-server/prod/application.conf dist
 
 # Upload new application on server
-scp ./dist/breath-server-1.0-SNAPSHOT.zip breath@37.187.46.135:/home/breath
+scp ./dist/breath-server-?.?.zip breath@37.187.46.135:/home/breath
 
 # Clean all compilling files
 play clean-all

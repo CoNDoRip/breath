@@ -1,16 +1,16 @@
 # Find PID of running application and kill it
 ps -ef |grep java |grep -v grep |tail -n 1 |while read _UID _PID _PPID _C _STIME _TTY _TIME _CMD; do
-sudo kill $_PID
+kill $_PID
 
 # Delete old version of application
-rm -r breath-server-1.0-SNAPSHOT
+rm -r breath-server-?.?
 
 # Unzip new version of application and delete archive
-unzip breath-server-1.0-SNAPSHOT.zip
-rm ./breath-server-1.0-SNAPSHOT.zip
+unzip breath-server-?.?.zip
+rm ./breath-server-?.?.zip
 
 # Run new application in background
-rm nohup.out
-chmod 755 ./breath-server-1.0-SNAPSHOT/start
-nohup ./breath-server-1.0-SNAPSHOT/start &
+##rm nohup.out
+chmod 755 ./breath-server-?.?/start
+nohup ./breath-server-?.?/start &
 done
