@@ -1,6 +1,5 @@
 package models;
 
-import java.util.*;
 import javax.persistence.*;
 
 import play.data.format.*;
@@ -9,6 +8,8 @@ import play.data.validation.*;
 import play.db.jpa.*;
 
 import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * Profile entity managed by JPA

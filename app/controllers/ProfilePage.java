@@ -25,7 +25,8 @@ public class ProfilePage extends Controller {
 		result.put("id",         profile.id);
 		result.put("first_name", profile.first_name);
 		result.put("last_name",  profile.last_name);
-		result.put("gender",     profile.gender.toString());
+		if (profile.gender != null)
+			result.put("gender", profile.gender.toString());
 		
 		return ok(result);
 	}
