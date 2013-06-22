@@ -1,6 +1,6 @@
 package models;
 
-import java.util.*;
+import java.util.List;
 import javax.persistence.*;
 
 import play.data.format.*;
@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
  */
 @Entity 
 @SequenceGenerator(name = "task_seq", sequenceName = "task_seq")
-public class Task {
+public class Task implements PageView {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
@@ -40,8 +40,6 @@ public class Task {
     @Constraints.Required
     @Constraints.Min(value=0)
     public Integer disliked;
-
-    private static int PAGESIZE = 10;
 
     public Task() {
     }
