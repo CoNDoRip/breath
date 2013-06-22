@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS Level (
     id             INT             PRIMARY KEY
   , name           VARCHAR(20)     UNIQUE
   , image          VARCHAR(25)     UNIQUE
+  , CONSTRAINT Level_greather_then_zero CHECK (id > 0)
 );
 
 
@@ -31,8 +32,7 @@ CREATE TABLE IF NOT EXISTS Profile (
 
   , CONSTRAINT Profile_Level FOREIGN KEY (level) REFERENCES Level(id)
   , CONSTRAINT Profile_gender CHECK (gender = 'M' or gender = 'F')
-  , CONSTRAINT Profile_greather_then_zero CHECK (level > 0
-                                            and points >= 0 
+  , CONSTRAINT Profile_greather_then_zero CHECK (points >= 0 
                                             and completed >= 0 
                                             and todo_list >= 0)
 );
@@ -41,11 +41,32 @@ ALTER SEQUENCE Profile_seq OWNED BY Profile.id;
 
 
 -------------------------------------------------------------------------------
+CREATE SEQUENCE Task_seq START WITH 1;
+
+CREATE TABLE IF NOT EXISTS Task (
+    id             NUMERIC         PRIMARY KEY   DEFAULT nextval('Task_seq')
+  , title          VARCHAR(200)    NOT NULL
+  , level          INT             NOT NULL
+  , datetime       DATE            NOT NULL      DEFAULT CURRENT_DATE
+  , liked          INT             NOT NULL      DEFAULT 0
+  , disliked       INT             NOT NULL      DEFAULT 0
+
+  , CONSTRAINT Task_Level FOREIGN KEY (level) REFERENCES Level(id)
+  , CONSTRAINT Task_datetime CHECK (datetime < CURRENT_DATE + 365)
+  , CONSTRAINT Task_greather_then_zero CHECK (liked >= 0 
+                                          and disliked >= 0)
+);
+
+ALTER SEQUENCE Task_seq OWNED BY Task.id;
+
+
+-------------------------------------------------------------------------------
 
 
 # --- !Downs
 
+DROP TABLE    IF EXISTS Task;
+
 DROP TABLE    IF EXISTS Profile;
-DROP SEQUENCE IF EXISTS Profile_seq;
 
 DROP TABLE    IF EXISTS Level;
