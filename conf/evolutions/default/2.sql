@@ -44,7 +44,28 @@ INSERT INTO Task (title, level)
           VALUES ('Shake the hand of a police officer', 3);
 
 
+
+INSERT INTO UserTask (profileId, taskId, image)
+          VALUES (1, 1, 'image11.jpg');
+INSERT INTO UserTask (profileId, taskId, image)
+          VALUES (1, 3, 'image13.jpg');
+INSERT INTO UserTask (profileId, taskId, image)
+          VALUES (2, 1, 'image21.jpg');
+INSERT INTO UserTask (profileId, taskId, image)
+          VALUES (2, 2, 'image22.jpg');
+INSERT INTO UserTask (profileId, taskId, image)
+          VALUES (2, 3, 'image23.jpg');
+INSERT INTO UserTask (profileId, taskId, image)
+          VALUES (3, 1, 'image31.jpg');
+
+
+
+-------------------------------------------------------------------------------
 # --- !Downs
+
+DELETE FROM UserTask;
+
+DELETE FROM Task;
 
 DELETE FROM Profile;
 

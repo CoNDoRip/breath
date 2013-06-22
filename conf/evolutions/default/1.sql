@@ -61,12 +61,38 @@ ALTER SEQUENCE Task_seq OWNED BY Task.id;
 
 
 -------------------------------------------------------------------------------
+CREATE TYPE UserTask_status AS ENUM ('rejected', 'pending', 'approved');
+
+CREATE SEQUENCE UserTask_seq START WITH 1;
+
+CREATE TABLE IF NOT EXISTS UserTask (
+    id             NUMERIC         PRIMARY KEY   DEFAULT nextval('UserTask_seq')
+  , profileId      NUMERIC         NOT NULL
+  , taskId         NUMERIC         NOT NULL
+  , datetime       DATE            NOT NULL      DEFAULT CURRENT_DATE
+  , approved       INT             NOT NULL      DEFAULT 0
+  , rejected       INT             NOT NULL      DEFAULT 0
+  , status         UserTask_status NOT NULL      DEFAULT 'pending'
+  , image          VARCHAR(100)    NOT NULL
+  , liked          INT             NOT NULL      DEFAULT 0
+
+  , CONSTRAINT UserTask_profileId FOREIGN KEY (profileId) REFERENCES Profile(id)
+  , CONSTRAINT UserTask_taskId    FOREIGN KEY (taskId)    REFERENCES Task(id)
+  , CONSTRAINT UserTask_datetime  CHECK (datetime = CURRENT_DATE)
+  , CONSTRAINT UserTask_greather_then_zero CHECK (liked >= 0)
+);
+
+ALTER SEQUENCE UserTask_seq OWNED BY UserTask.id;
 
 
+-------------------------------------------------------------------------------
 # --- !Downs
 
-DROP TABLE    IF EXISTS Task;
+DROP TABLE IF EXISTS UserTask;
+DROP TYPE  IF EXISTS UserTask_status;
 
-DROP TABLE    IF EXISTS Profile;
+DROP TABLE IF EXISTS Task;
 
-DROP TABLE    IF EXISTS Level;
+DROP TABLE IF EXISTS Profile;
+
+DROP TABLE IF EXISTS Level;
