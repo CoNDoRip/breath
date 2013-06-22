@@ -15,5 +15,8 @@ GET     /api/v1/profile/id:id       controllers.ProfilePage.getProfile(id:Long)
 # TaskPage
 GET     /api/v1/tasks               controllers.TaskPage.getTasks(page:Integer?=1)
 
+# UserTaskPage
+GET     /api/v1/usertasks           controllers.UserTaskPage.getUserTasks(page:Integer?=1)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

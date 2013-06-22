@@ -78,13 +78,13 @@ public class UserTask implements PageView {
     * Find a UserTask by profileId
     */
     public static List<UserTask> findByProfileId(Long profileId, Integer page) {
-        List<UserTask> listOfTasks = JPA.em()
+        List<UserTask> listOfUserTasks = JPA.em()
         .createQuery("from UserTask where profileId = :pi order by datetime desc")
         .setParameter("pi", profileId)
         .setFirstResult((page - 1) * PAGESIZE)
         .setMaxResults(PAGESIZE)
         .getResultList();
-        return listOfTasks;
+        return listOfUserTasks;
     }
     
     /**
@@ -108,6 +108,23 @@ public class UserTask implements PageView {
      */
     public void delete() {
         JPA.em().remove(this);
+    }
+
+    /**
+    * Enumeration of UserTask statuses
+    */
+    private enum UserTaskStatus {
+        
+          REJECTED("rejected")
+        , PENDING("pending")
+        , APPROVED("approved");
+        ;
+
+        private String status;
+
+        UserTaskStatus(String status) {this.status = status;}
+
+        String getStatus() {return status;}
     }
 
 }
