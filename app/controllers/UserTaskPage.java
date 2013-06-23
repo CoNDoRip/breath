@@ -7,6 +7,7 @@ import play.db.jpa.*;
 import views.html.*;
 import models.Profile;
 import models.UserTask;
+import models.UserTask.UserTaskWithTitle;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -26,7 +27,7 @@ public class UserTaskPage extends Controller {
 			String id = session("id");
 			Long profileId = Long.valueOf(id).longValue();
 
-			List<UserTask> listOfUserTasks = UserTask.findByProfileId(profileId, page);
+			List<UserTaskWithTitle> listOfUserTasks = UserTask.findByProfileId(profileId, page);
 
 			return ok(Json.toJson(listOfUserTasks));
 		} else {

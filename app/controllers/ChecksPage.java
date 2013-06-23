@@ -8,6 +8,7 @@ import views.html.*;
 import models.Profile;
 import models.Checks;
 import models.UserTask;
+import models.UserTask.UserTaskWithTitle;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -28,7 +29,7 @@ public class ChecksPage extends Controller {
 			Long profileId = Long.valueOf(id).longValue();
 			Profile profile = Profile.findById(profileId);
 
-			List<UserTask> listOfChecks = Checks.findChecks(profileId, page);
+			List<UserTaskWithTitle> listOfChecks = Checks.findChecks(profileId, page);
 			
 			return ok(Json.toJson(listOfChecks));
 		} else {

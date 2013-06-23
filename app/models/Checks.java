@@ -53,14 +53,15 @@ public class Checks implements PageView {
     /**
     * Find checks for current user
     */
-    public static List<UserTask> findChecks(Long profileId, Integer page) {
+    public static List<UserTask.UserTaskWithTitle> findChecks(Long profileId, Integer page) {
         List<UserTask> listOfChecks = JPA.em()
         .createQuery("from UserTask where profileId != :pi and status = 'pending' and id not in (select usertaskId from Checks where profileId = :pi)")
         .setParameter("pi", profileId)
         .setFirstResult((page - 1) * PAGESIZE)
         .setMaxResults(PAGESIZE)
         .getResultList();
-        return listOfChecks;
+
+        return UserTask.UserTaskWithTitle.getListOfUserTasksWithTitle(listOfChecks);
     }
     
     /**
