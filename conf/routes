@@ -8,6 +8,7 @@ GET     /                           controllers.Application.index()
 # API v1
 # Authorization
 POST    /api/v1/login               controllers.Authorization.login()
+GET     /api/v1/logout              controllers.Authorization.logout()
 
 # ProfilePage
 GET     /api/v1/profile             controllers.ProfilePage.getCurrentProfile()
