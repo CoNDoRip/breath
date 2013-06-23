@@ -31,4 +31,15 @@ public class ProfilePage extends Controller {
 		return ok(result);
 	}
 
+	/**
+	* Get current user's profile page
+	*/
+	@Transactional(readOnly=true)
+	public static Result getCurrentProfile() {
+		String id = session("id");
+		Long profileId = Long.valueOf(id).longValue();
+		
+		return getProfile(profileId);
+	}
+
 }

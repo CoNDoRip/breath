@@ -10,6 +10,7 @@ GET     /                           controllers.Application.index()
 POST    /api/v1/login               controllers.Authorization.login()
 
 # ProfilePage
+GET     /api/v1/profile             controllers.ProfilePage.getCurrentProfile()
 GET     /api/v1/profile/id:id       controllers.ProfilePage.getProfile(id:Long)
 
 # TaskPage
