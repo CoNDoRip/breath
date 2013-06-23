@@ -78,15 +78,36 @@ CREATE TABLE IF NOT EXISTS UserTask (
 
   , CONSTRAINT UserTask_profileId FOREIGN KEY (profileId) REFERENCES Profile(id)
   , CONSTRAINT UserTask_taskId    FOREIGN KEY (taskId)    REFERENCES Task(id)
+  , CONSTRAINT UserTask_unique    UNIQUE (profileId, taskId)
   , CONSTRAINT UserTask_datetime  CHECK (datetime = CURRENT_DATE)
-  , CONSTRAINT UserTask_greather_then_zero CHECK (liked >= 0)
+  , CONSTRAINT UserTask_greather_then_zero CHECK (liked >= 0
+                                              and approved >= 0
+                                              and rejected >= 0)
 );
 
 ALTER SEQUENCE UserTask_seq OWNED BY UserTask.id;
 
 
 -------------------------------------------------------------------------------
+CREATE SEQUENCE Checks_seq START WITH 1;
+
+CREATE TABLE Checks (
+    id             NUMERIC         PRIMARY KEY   DEFAULT nextval('Checks_seq')
+  , profileId      NUMERIC         NOT NULL
+  , usertaskId     NUMERIC         NOT NULL
+
+  , CONSTRAINT Checks_unique     UNIQUE (profileId, usertaskId)
+  , CONSTRAINT Checks_profileId  FOREIGN KEY (profileId)  REFERENCES Profile(id)
+  , CONSTRAINT Checks_usertaskId FOREIGN KEY (usertaskId) REFERENCES UserTask(id)
+);
+
+ALTER SEQUENCE Checks_seq OWNED BY Checks.id;
+
+
+-------------------------------------------------------------------------------
 # --- !Downs
+
+DROP TABLE IF EXISTS Checks;
 
 DROP TABLE IF EXISTS UserTask;
 DROP TYPE  IF EXISTS UserTask_status;

@@ -60,8 +60,24 @@ INSERT INTO UserTask (profileId, taskId, image)
 
 
 
+INSERT INTO Checks (profileId, usertaskId)
+          VALUES (1, 4);
+INSERT INTO Checks (profileId, usertaskId)
+          VALUES (1, 6);
+INSERT INTO Checks (profileId, usertaskId)
+          VALUES (2, 1);
+INSERT INTO Checks (profileId, usertaskId)
+          VALUES (3, 2);
+INSERT INTO Checks (profileId, usertaskId)
+          VALUES (3, 4);
+INSERT INTO Checks (profileId, usertaskId)
+          VALUES (3, 5);
+
+
 -------------------------------------------------------------------------------
 # --- !Downs
+
+DELETE FROM Checks;
 
 DELETE FROM UserTask;
 

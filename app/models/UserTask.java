@@ -1,6 +1,7 @@
 package models;
 
 import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.*;
 
 import play.data.format.*;
@@ -68,6 +69,21 @@ public class UserTask implements PageView {
     }
 
     /**
+    * Copy constructor
+    */
+    public UserTask(UserTask ut) {
+        this.id = ut.id;
+        this.profileId = ut.profileId;
+        this.taskId = ut.taskId;
+        this.datetime = ut.datetime;
+        this.approved = ut.approved;
+        this.rejected = ut.rejected;
+        this.status = ut.status;
+        this.image = ut.image;
+        this.liked = ut.liked;
+    }
+
+    /**
      * Find a UserTask by id.
      */
     public static UserTask findById(Long id) {
@@ -77,14 +93,15 @@ public class UserTask implements PageView {
     /**
     * Find a UserTask by profileId
     */
-    public static List<UserTask> findByProfileId(Long profileId, Integer page) {
+    public static List<UserTaskWithTitle> findByProfileId(Long profileId, Integer page) {
         List<UserTask> listOfUserTasks = JPA.em()
         .createQuery("from UserTask where profileId = :pi order by datetime desc")
         .setParameter("pi", profileId)
         .setFirstResult((page - 1) * PAGESIZE)
         .setMaxResults(PAGESIZE)
         .getResultList();
-        return listOfUserTasks;
+
+        return UserTaskWithTitle.getListOfUserTasksWithTitle(listOfUserTasks);
     }
     
     /**
@@ -125,6 +142,28 @@ public class UserTask implements PageView {
         UserTaskStatus(String status) {this.status = status;}
 
         String getStatus() {return status;}
+    }
+
+    public static class UserTaskWithTitle extends UserTask {
+
+        public String title;
+
+        UserTaskWithTitle(UserTask ut) {
+            super(ut);
+            title = (String) JPA.em()
+            .createQuery("select title from Task where id = ?")
+            .setParameter(1, ut.taskId)
+            .getSingleResult();
+        }
+
+        public static List<UserTaskWithTitle> getListOfUserTasksWithTitle(List<UserTask> listOfUserTasks) {
+            List<UserTaskWithTitle> listOfUserTasksWithTitle = new ArrayList<UserTaskWithTitle>(PAGESIZE);
+
+            for(UserTask ut: listOfUserTasks)
+                listOfUserTasksWithTitle.add(new UserTaskWithTitle(ut));
+
+            return listOfUserTasksWithTitle;
+        }
     }
 
 }

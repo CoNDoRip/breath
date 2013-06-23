@@ -66,10 +66,11 @@ public class Task implements PageView {
     /**
     * Find a task by level
     */
-    public static List<Task> findByLevel(Integer level, Integer page) {
+    public static List<Task> findByLevel(Long profileId, Integer level, Integer page) {
         List<Task> listOfTasks = JPA.em()
-        .createQuery("from Task where level = :lev and datetime <= CURRENT_DATE order by datetime desc")
+        .createQuery("from Task where level <= :lev and datetime <= CURRENT_DATE and id not in (select taskId from UserTask where profileId = :pi) order by datetime desc")
         .setParameter("lev", level)
+        .setParameter("pi", profileId)
         .setFirstResult((page - 1) * PAGESIZE)
         .setMaxResults(PAGESIZE)
         .getResultList();
