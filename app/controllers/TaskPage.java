@@ -27,7 +27,7 @@ public class TaskPage extends Controller {
 			Long profileId = Long.valueOf(id).longValue();
 			Profile profile = Profile.findById(profileId);
 
-			List<Task> listOfTasks = Task.findByLevel(profile.level, page);
+			List<Task> listOfTasks = Task.findByLevel(profileId, profile.level, page);
 			
 			return ok(Json.toJson(listOfTasks));
 		} else {
