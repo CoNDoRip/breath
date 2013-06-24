@@ -1,11 +1,8 @@
 package models;
 
+import play.db.jpa.JPA;
 import javax.persistence.*;
-
-import play.data.format.*;
-import play.data.validation.*;
-
-import play.db.jpa.*;
+import play.data.validation.Constraints;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -53,6 +50,9 @@ public class Profile {
     
     @Constraints.MaxLength(value=500)
     public String status;
+    
+    @Constraints.MaxLength(value=30)
+    public String avatar;
 
     public Profile() {
     }
@@ -82,12 +82,10 @@ public class Profile {
     * Find a profile by email
     */
     public static Profile findByEmail(String email) {
-        Profile profile = (Profile)JPA.em().createQuery(
-            "from Profile where lower(email) = :em"
-            ).setParameter("em", email.toLowerCase())
-             .getSingleResult();
-
-        return profile;
+        return (Profile) JPA.em()
+            .createQuery("from Profile where lower(email) = :em")
+            .setParameter("em", email.toLowerCase())
+            .getSingleResult();
     }
     
     /**
@@ -101,8 +99,7 @@ public class Profile {
     /**
      * Update this profile.
      */
-    public void update(Long id) {
-        this.id = id;
+    public void update() {
         JPA.em().merge(this);
     }
     
@@ -111,6 +108,44 @@ public class Profile {
      */
     public void delete() {
         JPA.em().remove(this);
+    }
+
+    /**
+    * Special profile without email and password
+    * for secure data transfer
+    */
+    public static class ProfileSafe {
+        public Long id;
+        public String username;
+        public String first_name;
+        public String last_name;
+        public Date birthday;
+        public Character gender;
+        public Integer level;
+        public Integer points;
+        public Integer completed;
+        public Integer todo_list;
+        public String status;
+        public String avatar;
+
+
+        public ProfileSafe() {
+        }
+
+        public ProfileSafe(Profile p) {
+            this.id = p.id;
+            this.username = p.username;
+            this.first_name = p.first_name;
+            this.last_name = p.last_name;
+            this.birthday = p.birthday;
+            this.gender = p.gender;
+            this.level = p.level;
+            this.points = p.points;
+            this.completed = p.completed;
+            this.todo_list = p.todo_list;
+            this.status = p.status;
+            this.avatar = p.avatar;
+        }
     }
 
 }

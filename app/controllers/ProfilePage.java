@@ -1,15 +1,13 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
-
-import views.html.*;
-import models.Profile;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
+import play.mvc.Security;
+import play.mvc.Controller;
+import play.mvc.Result;
+import static play.mvc.Results.*;
+import play.db.jpa.Transactional;
+
+import models.Profile;
 
 @Security.Authenticated(Secured.class)
 public class ProfilePage extends Controller {
@@ -19,27 +17,17 @@ public class ProfilePage extends Controller {
 	*/
 	@Transactional(readOnly=true)
 	public static Result getProfile(Long id) {
-		Profile profile = Profile.findById(id);
-
-		ObjectNode result = Json.newObject();
-		result.put("id",         profile.id);
-		result.put("first_name", profile.first_name);
-		result.put("last_name",  profile.last_name);
-		if (profile.gender != null)
-			result.put("gender", profile.gender.toString());
-		
-		return ok(result);
+		Profile p = Profile.findById(id);
+		Profile.ProfileSafe ps = new Profile.ProfileSafe(p);
+		return ok(Json.toJson(ps));
 	}
 
 	/**
 	* Get current user's profile page
 	*/
 	@Transactional(readOnly=true)
-	public static Result getCurrentProfile() {
-		String id = session("id");
-		Long profileId = Long.valueOf(id).longValue();
-		
-		return getProfile(profileId);
+	public static Result getCurrentProfile() {		
+		return getProfile(Application.getProfileId());
 	}
 
 }

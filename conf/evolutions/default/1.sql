@@ -41,6 +41,23 @@ ALTER SEQUENCE Profile_seq OWNED BY Profile.id;
 
 
 -------------------------------------------------------------------------------
+CREATE SEQUENCE Follower_seq START WITH 1;
+
+CREATE TABLE Follower (
+    id             NUMERIC         PRIMARY KEY   DEFAULT nextval('Follower_seq')
+  , profileId      NUMERIC         NOT NULL
+  , follow         NUMERIC         NOT NULL
+
+  , CONSTRAINT Follower_profileId FOREIGN KEY (profileId) REFERENCES Profile(id)
+  , CONSTRAINT Follower_follow    FOREIGN KEY (follow)    REFERENCES Profile(id)
+  , CONSTRAINT Follower_unique    UNIQUE (profileId, follow)
+  , CONSTRAINT Follower_different CHECK (profileId != follow)
+);
+
+ALTER SEQUENCE Follower_seq OWNED BY Follower.id;
+
+
+-------------------------------------------------------------------------------
 CREATE SEQUENCE Task_seq START WITH 1;
 
 CREATE TABLE IF NOT EXISTS Task (
@@ -52,7 +69,7 @@ CREATE TABLE IF NOT EXISTS Task (
   , disliked       INT             NOT NULL      DEFAULT 0
 
   , CONSTRAINT Task_Level FOREIGN KEY (level) REFERENCES Level(id)
-  , CONSTRAINT Task_datetime CHECK (datetime < CURRENT_DATE + 365)
+  , CONSTRAINT Task_datetime CHECK (datetime < CURRENT_DATE + 366)
   , CONSTRAINT Task_greather_then_zero CHECK (liked >= 0 
                                           and disliked >= 0)
 );
@@ -113,6 +130,8 @@ DROP TABLE IF EXISTS UserTask;
 DROP TYPE  IF EXISTS UserTask_status;
 
 DROP TABLE IF EXISTS Task;
+
+DROP TABLE IF EXISTS Follower;
 
 DROP TABLE IF EXISTS Profile;
 

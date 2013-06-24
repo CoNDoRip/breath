@@ -1,9 +1,10 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import static play.mvc.Results.*;
 
-import views.html.*;
+import views.html.cap.*;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -31,12 +32,30 @@ public class Application extends Controller {
     }
 
     /**
+    * Get profile id from cookie 
+    */
+    public static Long getProfileId() {
+        String id = session("id");
+        Long profileId = Long.valueOf(id).longValue();
+        return profileId;
+    }
+
+    /**
     * Generate error response with error message
     */
-	  public static Result errorResponse(String message) {
-	      ObjectNode result = Json.newObject();
-	      result.put("message", message);
-	      return badRequest(result);
-	  }
+	public static Result errorResponse(String message) {
+	    ObjectNode result = Json.newObject();
+	    result.put("message", message);
+	    return badRequest(result);
+	}
+
+    /**
+    * Generate error response with error message
+    */
+    public static Result goodResponse(String message) {
+        ObjectNode result = Json.newObject();
+        result.put("message", message);
+        return ok(result);
+    }
   
 }

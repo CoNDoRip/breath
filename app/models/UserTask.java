@@ -1,13 +1,11 @@
 package models;
 
+import play.db.jpa.JPA;
+import javax.persistence.*;
+import play.data.validation.Constraints;
+
 import java.util.List;
 import java.util.ArrayList;
-import javax.persistence.*;
-
-import play.data.format.*;
-import play.data.validation.*;
-
-import play.db.jpa.*;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -95,11 +93,11 @@ public class UserTask implements PageView {
     */
     public static List<UserTaskWithTitle> findByProfileId(Long profileId, Integer page) {
         List<UserTask> listOfUserTasks = JPA.em()
-        .createQuery("from UserTask where profileId = :pi order by datetime desc")
-        .setParameter("pi", profileId)
-        .setFirstResult((page - 1) * PAGESIZE)
-        .setMaxResults(PAGESIZE)
-        .getResultList();
+            .createQuery("from UserTask where profileId = :pi order by datetime desc")
+            .setParameter("pi", profileId)
+            .setFirstResult((page - 1) * PAGESIZE)
+            .setMaxResults(PAGESIZE)
+            .getResultList();
 
         return UserTaskWithTitle.getListOfUserTasksWithTitle(listOfUserTasks);
     }
@@ -115,8 +113,7 @@ public class UserTask implements PageView {
     /**
      * Update this UserTask.
      */
-    public void update(Long id) {
-        this.id = id;
+    public void update() {
         JPA.em().merge(this);
     }
     
@@ -144,6 +141,9 @@ public class UserTask implements PageView {
         String getStatus() {return status;}
     }
 
+    /**
+    * Special form of user task with title of task
+    */
     public static class UserTaskWithTitle extends UserTask {
 
         public String title;
@@ -151,13 +151,15 @@ public class UserTask implements PageView {
         UserTaskWithTitle(UserTask ut) {
             super(ut);
             title = (String) JPA.em()
-            .createQuery("select title from Task where id = ?")
-            .setParameter(1, ut.taskId)
-            .getSingleResult();
+                .createQuery("select title from Task where id = ?")
+                .setParameter(1, ut.taskId)
+                .getSingleResult();
         }
 
-        public static List<UserTaskWithTitle> getListOfUserTasksWithTitle(List<UserTask> listOfUserTasks) {
-            List<UserTaskWithTitle> listOfUserTasksWithTitle = new ArrayList<UserTaskWithTitle>(PAGESIZE);
+        public static List<UserTaskWithTitle> getListOfUserTasksWithTitle(
+                                            List<UserTask> listOfUserTasks) {
+            List<UserTaskWithTitle> listOfUserTasksWithTitle
+                = new ArrayList<UserTaskWithTitle>(PAGESIZE);
 
             for(UserTask ut: listOfUserTasks)
                 listOfUserTasksWithTitle.add(new UserTaskWithTitle(ut));
