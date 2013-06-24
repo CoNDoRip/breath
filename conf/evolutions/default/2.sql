@@ -24,6 +24,11 @@ INSERT INTO Profile (email, password, first_name, last_name, gender)
 
 
 
+INSERT INTO Follower (profileId, follow)
+          VALUES (3, 2);
+
+
+
 INSERT INTO Task (title, level)
           VALUES ('Write BREATH by your left hand. It should be nice', 1);
 INSERT INTO Task (title, level)
@@ -82,6 +87,8 @@ DELETE FROM Checks;
 DELETE FROM UserTask;
 
 DELETE FROM Task;
+
+DELETE FROM Follower;
 
 DELETE FROM Profile;
 
