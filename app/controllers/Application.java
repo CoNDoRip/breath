@@ -1,9 +1,10 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import static play.mvc.Results.*;
 
-import views.html.*;
+import views.html.cap.*;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
