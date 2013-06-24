@@ -1,11 +1,8 @@
 package models;
 
+import play.db.jpa.JPA;
 import javax.persistence.*;
-
-import play.data.format.*;
-import play.data.validation.*;
-
-import play.db.jpa.*;
+import play.data.validation.Constraints;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -53,6 +50,9 @@ public class Profile {
     
     @Constraints.MaxLength(value=500)
     public String status;
+    
+    @Constraints.MaxLength(value=30)
+    public String avatar;
 
     public Profile() {
     }
@@ -82,12 +82,10 @@ public class Profile {
     * Find a profile by email
     */
     public static Profile findByEmail(String email) {
-        Profile profile = (Profile)JPA.em().createQuery(
-            "from Profile where lower(email) = :em"
-            ).setParameter("em", email.toLowerCase())
-             .getSingleResult();
-
-        return profile;
+        return (Profile) JPA.em()
+            .createQuery("from Profile where lower(email) = :em")
+            .setParameter("em", email.toLowerCase())
+            .getSingleResult();
     }
     
     /**
@@ -112,6 +110,10 @@ public class Profile {
         JPA.em().remove(this);
     }
 
+    /**
+    * Special profile without email and password
+    * for secure data transfer
+    */
     public static class ProfileSafe {
         public Long id;
         public String username;
@@ -124,6 +126,8 @@ public class Profile {
         public Integer completed;
         public Integer todo_list;
         public String status;
+        public String avatar;
+
 
         public ProfileSafe() {
         }
@@ -140,6 +144,7 @@ public class Profile {
             this.completed = p.completed;
             this.todo_list = p.todo_list;
             this.status = p.status;
+            this.avatar = p.avatar;
         }
     }
 
