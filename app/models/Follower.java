@@ -1,6 +1,7 @@
 package models;
 
 import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.*;
 
 import play.data.format.*;
@@ -14,9 +15,11 @@ import java.math.BigInteger;
  * Follower entity managed by JPA
  */
 @Entity 
+@SequenceGenerator(name = "follower_seq", sequenceName = "follower_seq")
 public class Follower implements PageView {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "follower_seq")
     public BigInteger id;
 
     @Constraints.Required
@@ -40,8 +43,8 @@ public class Follower implements PageView {
     /**
     * Find a follower by Id
     */
-    public static Checks Follower(BigInteger id) {
-        return JPA.em().find(Checks.class, id);
+    public static Follower findById(BigInteger id) {
+        return JPA.em().find(Follower.class, id);
     }
 
     /**
@@ -49,13 +52,51 @@ public class Follower implements PageView {
     */
     public static List<Follower> findFollowers(Long profileId, Integer page) {
         List<Follower> listOfFollowers = JPA.em()
-        .createQuery("from Follower where profileId = ?")
-        .setParameter(1, profileId)
-        .setFirstResult((page - 1) * PAGESIZE)
-        .setMaxResults(PAGESIZE)
-        .getResultList();
+            .createQuery("from Follower where profileId = ?")
+            .setParameter(1, profileId)
+            .setFirstResult((page - 1) * PAGESIZE)
+            .setMaxResults(PAGESIZE)
+            .getResultList();
 
         return listOfFollowers;
+    }
+
+    /**
+    * Get all profiles of user's followers in safe mode
+    */
+    public static List<Profile.ProfileSafe> getFollowers(Long profileId, Integer page) {
+        List<Follower> listOfFollowers = findFollowers(profileId, page);
+
+        List<Profile.ProfileSafe> listOfProfiles = new ArrayList<Profile.ProfileSafe>(PAGESIZE);
+        for(Follower f: listOfFollowers) {
+            Profile p = Profile.findById(f.follow);
+            Profile.ProfileSafe ps = new Profile.ProfileSafe(p);
+            listOfProfiles.add(ps);
+        }
+        return listOfProfiles;
+    }
+
+    /**
+    * Find follower by parameters
+    */
+    public static Follower findByParameters(Long profileId, Long follow) {
+        return (Follower) JPA.em()
+            .createQuery("from Follower where profileId = :pi and follow = :fol")
+            .setParameter("pi", profileId)
+            .setParameter("fol", follow)
+            .getSingleResult();
+    }
+
+    /**
+    * Check if this user already follow him
+    */
+    public static boolean isFollow(Long profileId, Long follow) {
+        try {
+            findByParameters(profileId, follow);
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        }
     }
     
     /**
@@ -64,14 +105,6 @@ public class Follower implements PageView {
     public void save() {
         this.id = id;
         JPA.em().persist(this);
-    }
-
-    /**
-     * Update this follower.
-     */
-    public void update(BigInteger id) {
-        this.id = id;
-        JPA.em().merge(this);
     }
     
     /**

@@ -17,6 +17,11 @@ GET     /api/v1/logout              controllers.Authorization.logout()
 GET     /api/v1/profile             controllers.ProfilePage.getCurrentProfile()
 GET     /api/v1/profile/id:id       controllers.ProfilePage.getProfile(id:Long)
 
+# Followers
+GET     /api/v1/followers           controllers.FollowersPage.getFollowers(page:Integer?=1)
+POST    /api/v1/followers/:follow   controllers.FollowersPage.follow(follow:Long)
+DELETE  /api/v1/followers/:follow   controllers.FollowersPage.unfollow(follow:Long)
+
 # TaskPage
 GET     /api/v1/tasks               controllers.TaskPage.getTasks(page:Integer?=1)
 

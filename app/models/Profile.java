@@ -113,4 +113,35 @@ public class Profile {
         JPA.em().remove(this);
     }
 
+    public static class ProfileSafe {
+        public Long id;
+        public String username;
+        public String first_name;
+        public String last_name;
+        public Date birthday;
+        public Character gender;
+        public Integer level;
+        public Integer points;
+        public Integer completed;
+        public Integer todo_list;
+        public String status;
+
+        public ProfileSafe() {
+        }
+
+        public ProfileSafe(Profile p) {
+            this.id = p.id;
+            this.username = p.username;
+            this.first_name = p.first_name;
+            this.last_name = p.last_name;
+            this.birthday = p.birthday;
+            this.gender = p.gender;
+            this.level = p.level;
+            this.points = p.points;
+            this.completed = p.completed;
+            this.todo_list = p.todo_list;
+            this.status = p.status;
+        }
+    }
+
 }
