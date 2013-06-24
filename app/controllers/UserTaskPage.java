@@ -1,17 +1,14 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
+import play.libs.Json;
+import play.mvc.Security;
+import play.mvc.Controller;
+import play.mvc.Result;
+import static play.mvc.Results.*;
+import play.db.jpa.Transactional;
 
-import views.html.*;
 import models.Profile;
 import models.UserTask;
-import models.UserTask.UserTaskWithTitle;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
-import play.libs.Json;
 
 import java.util.List;
 
@@ -24,14 +21,14 @@ public class UserTaskPage extends Controller {
 	@Transactional(readOnly=true)
 	public static Result getUserTasks(Integer page) {
 		if (page > 0) {
-			String id = session("id");
-			Long profileId = Long.valueOf(id).longValue();
-
-			List<UserTaskWithTitle> listOfUserTasks = UserTask.findByProfileId(profileId, page);
-
+			Long profileId = Application.getProfileId();
+			List<UserTask.UserTaskWithTitle> listOfUserTasks 
+				= UserTask.findByProfileId(profileId, page);
 			return ok(Json.toJson(listOfUserTasks));
 		} else {
-			return Application.errorResponse("Error in page number! Page must be greater than 0");
+			return Application.errorResponse(
+				"Error in page number! Page must be greater than 0"
+				);
 		}
 	}
 

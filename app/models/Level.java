@@ -1,11 +1,8 @@
 package models;
 
+import play.db.jpa.JPA;
 import javax.persistence.*;
-
-import play.data.format.*;
-import play.data.validation.*;
-
-import play.db.jpa.*;
+import play.data.validation.Constraints;
 
 /**
  * Level entity managed by JPA
@@ -25,10 +22,8 @@ public class Level {
     @Constraints.MaxLength(value=25)
     public String image;
 
-
     public Level() {
     }
-
 
     /**
      * Find a level by id.
@@ -41,12 +36,12 @@ public class Level {
     * Find a level by name
     */
     public static Level findByName(String name) {
-        Level profile = (Level)JPA.em().createQuery(
-            "from Level where lower(name) = :n"
-            ).setParameter("n", name.toLowerCase())
-             .getSingleResult();
+        Level level = (Level)JPA.em()
+            .createQuery("from Level where lower(name) = :n")
+            .setParameter("n", name.toLowerCase())
+            .getSingleResult();
 
-        return profile;
+        return level;
     }
     
     /**
@@ -60,8 +55,7 @@ public class Level {
     /**
      * Update this level.
      */
-    public void update(Integer id) {
-        this.id = id;
+    public void update() {
         JPA.em().merge(this);
     }
     

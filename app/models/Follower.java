@@ -1,15 +1,12 @@
 package models;
 
-import java.util.List;
-import java.util.ArrayList;
+import play.db.jpa.JPA;
 import javax.persistence.*;
-
-import play.data.format.*;
-import play.data.validation.*;
-
-import play.db.jpa.*;
+import play.data.validation.Constraints;
 
 import java.math.BigInteger;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Follower entity managed by JPA

@@ -1,12 +1,10 @@
 package models;
 
-import java.util.List;
+import play.db.jpa.JPA;
 import javax.persistence.*;
+import play.data.validation.Constraints;
 
-import play.data.format.*;
-import play.data.validation.*;
-
-import play.db.jpa.*;
+import java.util.List;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -68,12 +66,13 @@ public class Task implements PageView {
     */
     public static List<Task> findByLevel(Long profileId, Integer level, Integer page) {
         List<Task> listOfTasks = JPA.em()
-        .createQuery("from Task where level <= :lev and datetime <= CURRENT_DATE and id not in (select taskId from UserTask where profileId = :pi) order by datetime desc")
-        .setParameter("lev", level)
-        .setParameter("pi", profileId)
-        .setFirstResult((page - 1) * PAGESIZE)
-        .setMaxResults(PAGESIZE)
-        .getResultList();
+            .createQuery("from Task where level <= :lev and datetime <= CURRENT_DATE and id not in (select taskId from UserTask where profileId = :pi) order by datetime desc")
+            .setParameter("lev", level)
+            .setParameter("pi", profileId)
+            .setFirstResult((page - 1) * PAGESIZE)
+            .setMaxResults(PAGESIZE)
+            .getResultList();
+
         return listOfTasks;
     }
     
@@ -88,8 +87,7 @@ public class Task implements PageView {
     /**
      * Update this task.
      */
-    public void update(Long id) {
-        this.id = id;
+    public void update() {
         JPA.em().merge(this);
     }
     

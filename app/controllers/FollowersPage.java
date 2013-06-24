@@ -1,17 +1,16 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
+import play.libs.Json;
+import play.mvc.Security;
+import play.mvc.Controller;
+import play.mvc.Result;
+import static play.mvc.Results.ok;
+
+import play.db.jpa.Transactional;
 import javax.persistence.NoResultException;
 
-import views.html.*;
 import models.Profile;
 import models.Follower;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
-import play.libs.Json;
 
 import java.util.List;
 
