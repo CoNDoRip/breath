@@ -1,0 +1,165 @@
+body {
+	background-color: #b91319;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.top_container {
+	background-color: #FFF;
+	height: 80px;
+	margin: auto;
+	opacity: .95;
+	float: left;
+	width: 100%;
+}
+.top {
+	width: 812px;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-left: auto;
+}
+.top .logo {
+	float: left;
+	height: 59px;
+	width: 204px;
+}
+.top .top_links {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #333;
+	float: right;
+	margin-top: 20px;
+}
+.top .top_links a {
+	color: #333;
+	text-decoration: none;
+	word-spacing: 12px;
+}
+.top .top_links a:hover {
+	color: #333;
+	text-decoration: underline;
+}
+.header {
+	background-image: url(../images/cap/skiing.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+	margin: auto;
+	height: 422px;
+	width: 100%;
+}
+.header .clouds {
+	background-image: url(../images/cap/bg.png);
+	background-repeat: repeat-x;
+	background-position: center top;
+	height: 89px;
+	position: relative;
+	width: 100%;
+	top: 350px;
+}
+.bodycontainer {
+	sclear: both;
+	width: 803px;
+	margin: auto;
+}
+.left {
+	float: left;
+	width: 485px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}
+.left .text {
+	background-image: url(../images/cap/text.jpg);
+	float: left;
+	height: 263px;
+	width: 485px;
+}
+.button {
+	background-image: url(../images/cap/button.jpg);
+	float: right;
+	height: 178px;
+	width: 389px;
+	margin-top: 15px;
+}
+.mobile {
+	background-image: url(../images/cap/mobile.jpg);
+	float: right;
+	height: 527px;
+	width: 249px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+.bodycontainer h1 {
+	color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	margin-top: 20px;
+	float: left;
+	margin-bottom: 0px;
+	width: 800px;
+}
+.bodycontainer h2 {
+	color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	margin-top: 20px;
+	margin-bottom: 0px;
+	text-align: center;
+	float: left;
+}
+.bodycontainer h3 {
+	color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	margin-top: 40px;
+	margin-bottom: 0px;
+	text-align: center;
+	float: left;
+}
+.bodycontainer a {
+	color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+}
+.bodycontainer p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #FFF;
+	line-height: 18px;
+	width: 800px;
+	float: left;
+	margin: 0px;
+}
+.white14 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #FFF;
+}
+.textbox_noborder {
+	background-color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #333;
+	width: 300px;
+	border: 1px solid #9D0F14;
+	text-indent: 5px;
+	height: 30px;
+}
+.textbox_noborder2 {
+	background-color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #333;
+	width: 300px;
+	border: 1px solid #9D0F14;
+	text-indent: 5px;
+	height: 150px;
+}
+.title-3.ek h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 34px;
+	color: #FFF;
+	font-weight: normal;
+	text-align: center;
+}

@@ -83,4 +83,12 @@ public class Authorization extends Controller {
 		return Crypto.sign(password);
 	}
 
+	public static Result logout() {
+		session().clear();
+
+        ObjectNode result = Json.newObject();
+        result.put("message", "Goodbye!");
+        return ok(result);
+	}
+
 }

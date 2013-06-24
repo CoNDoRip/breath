@@ -4,13 +4,24 @@
 
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <!-- <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")"> -->
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/cap.css")">
+        <!-- <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")"> -->
         <!-- <script src="@routes.Assets.at("javascripts/jquery-1.10.1.min.js")" type="text/javascript"></script> -->
     </head>
+    
     <body>
-        <h2 align=center>@content<h2>
+        <div class="top_container">
+            <div class="top">
+                <div class="logo"><a href="@routes.Application.index()"><img src="@routes.Assets.at("images/cap/logo.jpg")" alt="Breath" width="204" height="59" border="0" /></a></div>
+            
+                <div class="top_links"><a href="@routes.Application.about()">About</a> | <a href="@routes.Application.download()">Dowload</a> | <a href="@routes.Application.contact()">Contact</a></div>
+            </div>
+        </div>
+
+        @content
+
     </body>
 </html>
