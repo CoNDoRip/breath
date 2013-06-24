@@ -12,27 +12,31 @@ import play.libs.Json;
 public class Application extends Controller {
   
     /**
-     * Handle default path requests, redirect to API v1
+     * Preview page
      */
     public static Result index() {
-    	String id = session("id");
-  		if(id != null) {
-  			Long profileId = Long.valueOf(id).longValue();
-  			return redirect(routes.ProfilePage.getProfile(profileId));
-  		} else {
-			ObjectNode result = Json.newObject();
-			result.put("message", "Unauthorized user, please login");
-			return unauthorized(result);
-  		}
+        return ok(index.render());
+    }
+
+    public static Result about() {
+        return ok(about.render());
+    }
+
+    public static Result download() {
+        return ok(download.render());
+    }
+
+    public static Result contact() {
+        return ok(contact.render());
     }
 
     /**
     * Generate error response with error message
     */
-	public static Result errorResponse(String message) {
-		ObjectNode result = Json.newObject();
-		result.put("message", message);
-		return badRequest(result);
-	}
+	  public static Result errorResponse(String message) {
+	      ObjectNode result = Json.newObject();
+	      result.put("message", message);
+	      return badRequest(result);
+	  }
   
 }

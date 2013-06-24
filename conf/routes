@@ -2,8 +2,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Default path will just redirect to the API v1
+# Cap
 GET     /                           controllers.Application.index()
+GET     /about                      controllers.Application.about()
+GET     /download                   controllers.Application.download()
+GET     /contact                    controllers.Application.contact()
 
 # API v1
 # Authorization
