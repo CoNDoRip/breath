@@ -101,8 +101,7 @@ public class Profile {
     /**
      * Update this profile.
      */
-    public void update(Long id) {
-        this.id = id;
+    public void update() {
         JPA.em().merge(this);
     }
     

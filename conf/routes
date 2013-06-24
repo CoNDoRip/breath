@@ -12,6 +12,7 @@ GET     /contact                    controllers.Application.contact()
 # Authorization
 POST    /api/v1/login               controllers.Authorization.login()
 GET     /api/v1/logout              controllers.Authorization.logout()
+PUT     /api/v1/changepassword      controllers.Authorization.changePassword()
 
 # ProfilePage
 GET     /api/v1/profile             controllers.ProfilePage.getCurrentProfile()

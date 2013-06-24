@@ -1,11 +1,13 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
+import play.mvc.Controller;
+import play.mvc.Security;
+import play.mvc.Result;
+import static play.mvc.Results.*;
+
+import play.db.jpa.Transactional;
 import javax.persistence.NoResultException;
 
-import views.html.*;
 import models.Profile;
 
 import org.codehaus.jackson.JsonNode;
@@ -23,7 +25,6 @@ public class Authorization extends Controller {
 	public static Result login() {
 		JsonNode jsonBody = request().body().asJson();
 		if (jsonBody == null) {
-			// BUG!!! Return HTML with status 400 if Content-type: application/json
 			return Application.errorResponse("Expecting Json data");
         } else {
         	String email = jsonBody.findPath("email").getTextValue();
@@ -54,7 +55,6 @@ public class Authorization extends Controller {
 
         if (hash.equals(profile.password)) {
         	session("id", profile.id.toString());
-        	session("hash", hash);
         	result.put("message", "Successful login! Welcome, "
         		                      + profile.first_name + "!");
 			return created(result);
@@ -69,26 +69,59 @@ public class Authorization extends Controller {
 	*/
 	@Transactional
 	private static Result registration(String email, String hash) {
-		
 		Profile profile = new Profile(email, hash);
 		profile.save();
-
 		return authenticate(profile, hash);
 	}
 
 	/**
-	* Calculate hash of password using application.secret as a salt
+	* Calculate HMAC-SHA1 of password using the application secret key as a salt
 	*/
 	private static String hashPassword(String password) {
 		return Crypto.sign(password);
 	}
 
+	/**
+	* Logout current user and delete its cookie
+	*/
+	@Security.Authenticated(Secured.class)
 	public static Result logout() {
 		session().clear();
+		return Application.goodResponse("Goodbye!");
+	}
 
-        ObjectNode result = Json.newObject();
-        result.put("message", "Goodbye!");
-        return ok(result);
+	/**
+	* Change password of current user
+	*/
+	@Security.Authenticated(Secured.class)
+	@Transactional
+	public static Result changePassword() {
+		JsonNode jsonBody = request().body().asJson();
+		if (jsonBody == null) {
+			return Application.errorResponse("Expecting Json data");
+        } else {
+        	String oldPassword = jsonBody.findPath("oldPassword").getTextValue();
+        	if (oldPassword == null) {
+				return Application.errorResponse("Missing parameter [oldPassword]");
+        	}
+        	String newPassword = jsonBody.findPath("newPassword").getTextValue();
+        	if (newPassword == null) {
+				return Application.errorResponse("Missing parameter [newPassword]");
+        	}
+
+        	oldPassword = hashPassword(oldPassword);
+        	newPassword = hashPassword(newPassword);
+
+        	Profile profile = Profile.findById(Application.getProfileId());
+
+        	if (profile.password.equals(oldPassword)) {
+        		profile.password = newPassword;
+        		profile.update();
+        		return Application.goodResponse("Password successfully changed");
+        	} else {
+        		return Application.errorResponse("Old password is not valid");
+        	}
+        }
 	}
 
 }
