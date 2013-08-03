@@ -54,7 +54,8 @@ public class Authorization extends Controller {
         ObjectNode result = Json.newObject();
 
         if (hash.equals(profile.password)) {
-        	session("id", profile.id.toString());
+        	String idHash = Crypto.encryptAES(profile.id.toString());
+        	session("id", idHash);
         	result.put("message", "Successful login! Welcome, "
         		                      + profile.first_name + "!");
 			return created(result);

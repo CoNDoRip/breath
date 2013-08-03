@@ -9,6 +9,7 @@ import views.html.cap.*;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
+import play.libs.Crypto;
 
 public class Application extends Controller {
   
@@ -35,7 +36,8 @@ public class Application extends Controller {
     * Get profile id from cookie 
     */
     public static Long getProfileId() {
-        String id = session("id");
+        String idHash = session("id");
+        String id = Crypto.decryptAES(idHash);
         Long profileId = Long.valueOf(id).longValue();
         return profileId;
     }
