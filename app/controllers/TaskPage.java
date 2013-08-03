@@ -9,8 +9,12 @@ import play.db.jpa.Transactional;
 
 import models.Profile;
 import models.Task;
+import models.UserTask;
 
 import java.util.List;
+import java.io.File;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 
 @Security.Authenticated(Secured.class)
 public class TaskPage extends Controller {
@@ -31,6 +35,24 @@ public class TaskPage extends Controller {
 			return Application.errorResponse(
 				"Error in page number! Page must be greater than 0"
 				);
+		}
+	}
+
+	/**
+	* 
+	*/
+	@Transactional
+	public static Result doTask(Long id) {
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart image = body.getFile("image");
+		if (image != null) {
+			String imageName = image.getFilename();
+			File file = image.getFile();
+			UserTask ut = new UserTask(Application.getProfileId(), id, imageName);
+			ut.save();
+			return Application.goodResponse("Task " + id + "successfully has done");  
+		} else {
+			return Application.errorResponse("Can't found image");    
 		}
 	}
 

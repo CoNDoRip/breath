@@ -57,12 +57,14 @@ public class UserTask implements PageView {
     * Default constructor for adding new UserTask
     * that set profileId, taskId and name of image
     */
-    public UserTask(Long profileId, Long taskId, String image) {
+    public UserTask(Long profileId, Long taskId, String imageName) {
+        this.profileId = profileId;
+        this.taskId = taskId;
         this.datetime = new Date();
         this.approved = 0;
         this.rejected = 0;
         this.status = "pending";
-        this.image = image;
+        this.image = imageName;
         this.liked = 0;
     }
 

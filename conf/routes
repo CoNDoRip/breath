@@ -25,6 +25,7 @@ DELETE  /api/v1/followers/:follow   controllers.FollowersPage.unfollow(follow:Lo
 
 # TaskPage
 GET     /api/v1/tasks               controllers.TaskPage.getTasks(page:Integer?=1)
+POST    /api/v1/tasks/:id           controllers.TaskPage.doTask(id:Long)
 
 # UserTaskPage
 GET     /api/v1/usertasks           controllers.UserTaskPage.getUserTasks(page:Integer?=1)
