@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS UserTask (
   , datetime       DATE            NOT NULL      DEFAULT CURRENT_DATE
   , approved       INT             NOT NULL      DEFAULT 0
   , rejected       INT             NOT NULL      DEFAULT 0
-  , status         UserTask_status NOT NULL      DEFAULT 'pending'
+  , status         VARCHAR(100)    NOT NULL      DEFAULT 'pending'
   , image          VARCHAR(100)    NOT NULL
   , liked          INT             NOT NULL      DEFAULT 0
 

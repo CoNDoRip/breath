@@ -63,7 +63,7 @@ public class UserTask implements PageView {
         this.datetime = new Date();
         this.approved = 0;
         this.rejected = 0;
-        this.status = "pending";
+        this.status = UserTaskStatus.PENDING.getStatus();
         this.image = imageName;
         this.liked = 0;
     }
@@ -91,7 +91,18 @@ public class UserTask implements PageView {
     }
 
     /**
-    * Find a UserTask by profileId
+    *
+    */
+    public static UserTask findByProfileIdAndTaskId(Long profileId, Long taskId) {
+        return (UserTask) JPA.em()
+            .createQuery("from UserTask where profileId = :pi and taskId = :ti")
+            .setParameter("pi", profileId)
+            .setParameter("ti", taskId)
+            .getSingleResult();
+    }
+
+    /**
+    * Find all UserTasks by profileId
     */
     public static List<UserTaskWithTitle> findByProfileId(Long profileId, Integer page) {
         List<UserTask> listOfUserTasks = JPA.em()
@@ -102,6 +113,14 @@ public class UserTask implements PageView {
             .getResultList();
 
         return UserTaskWithTitle.getListOfUserTasksWithTitle(listOfUserTasks);
+    }
+
+    public void checkStatus() {
+        if(this.approved > 5 && this.approved > this.rejected * 3) {
+            this.status = UserTaskStatus.APPROVED.getStatus();
+        } else if(this.rejected > 5 && this.rejected > this.approved * 3) {
+            this.status = UserTaskStatus.REJECTED.getStatus();
+        }
     }
     
     /**
@@ -129,7 +148,7 @@ public class UserTask implements PageView {
     /**
     * Enumeration of UserTask statuses
     */
-    private enum UserTaskStatus {
+    public enum UserTaskStatus {
         
           REJECTED("rejected")
         , PENDING("pending")
@@ -140,7 +159,7 @@ public class UserTask implements PageView {
 
         UserTaskStatus(String status) {this.status = status;}
 
-        String getStatus() {return status;}
+        public String getStatus() {return status;}
     }
 
     /**

@@ -23,3 +23,6 @@ prod
 /.project
 /RUNNING_PID
 /.settings
+/.metadata
+/.target
+/public/images/usertasks

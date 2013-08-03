@@ -66,7 +66,7 @@ public class Task implements PageView {
     */
     public static List<Task> findByLevel(Long profileId, Integer level, Integer page) {
         List<Task> listOfTasks = JPA.em()
-            .createQuery("from Task where level <= :lev and datetime <= CURRENT_DATE and id not in (select taskId from UserTask where profileId = :pi) order by datetime desc")
+            .createQuery("from Task where level <= :lev and datetime <= CURRENT_DATE and id not in (select taskId from UserTask where profileId = :pi and status != 'rejected') order by datetime desc")
             .setParameter("lev", level)
             .setParameter("pi", profileId)
             .setFirstResult((page - 1) * PAGESIZE)

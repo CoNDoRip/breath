@@ -11,9 +11,11 @@ import java.util.List;
  * Checks entity managed by JPA
  */
 @Entity 
+@SequenceGenerator(name = "checks_seq", sequenceName = "checks_seq")
 public class Checks implements PageView {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "checks_seq")
     public BigInteger id;
 
     @Constraints.Required

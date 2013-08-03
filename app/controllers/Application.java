@@ -11,7 +11,14 @@ import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
 import play.libs.Crypto;
 
+import java.io.File;
+
 public class Application extends Controller {
+
+    public static final String imgPath = File.separator + "public" 
+                                       + File.separator + "images"
+                                       + File.separator + "usertasks"
+                                       + File.separator;
   
     /**
      * Preview page

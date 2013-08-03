@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Play;
 import play.libs.Json;
 import play.mvc.Security;
 import play.mvc.Controller;
@@ -11,6 +12,7 @@ import models.Profile;
 import models.UserTask;
 
 import java.util.List;
+import java.io.File;
 
 @Security.Authenticated(Secured.class)
 public class UserTaskPage extends Controller {
@@ -30,6 +32,14 @@ public class UserTaskPage extends Controller {
 				"Error in page number! Page must be greater than 0"
 				);
 		}
+	}
+
+	@Transactional(readOnly=true)
+	public static Result getImage(Long id) {
+		UserTask ut = UserTask.findById(id);
+    	File file  = new File(Play.application().path().getAbsolutePath() 
+    		+ Application.imgPath + ut.profileId + File.separator + ut.image);
+    	return ok(file);
 	}
 
 }

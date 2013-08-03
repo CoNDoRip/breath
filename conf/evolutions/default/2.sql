@@ -51,17 +51,17 @@ INSERT INTO Task (title, level)
 
 
 INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (1, 1, 'image11.jpg');
+          VALUES (1, 1, 'task1.jpg');
 INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (1, 3, 'image13.jpg');
+          VALUES (1, 3, 'task3.jpg');
 INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (2, 1, 'image21.jpg');
+          VALUES (2, 1, 'task1.jpg');
 INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (2, 2, 'image22.jpg');
+          VALUES (2, 2, 'task2.jpg');
 INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (2, 3, 'image23.jpg');
+          VALUES (2, 3, 'task3.jpg');
 INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (3, 1, 'image31.jpg');
+          VALUES (3, 1, 'task1.jpg');
 
 
 

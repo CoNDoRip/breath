@@ -25,13 +25,15 @@ DELETE  /api/v1/followers/:follow   controllers.FollowersPage.unfollow(follow:Lo
 
 # TaskPage
 GET     /api/v1/tasks               controllers.TaskPage.getTasks(page:Integer?=1)
-POST    /api/v1/tasks/:id           controllers.TaskPage.doTask(id:Long)
+POST    /api/v1/tasks/:taskId       controllers.TaskPage.doTask(taskId:Long)
 
 # UserTaskPage
 GET     /api/v1/usertasks           controllers.UserTaskPage.getUserTasks(page:Integer?=1)
+GET     /api/v1/usertasks/:id/image controllers.UserTaskPage.getImage(id:Long)
 
 # ChecksPage
 GET     /api/v1/checks              controllers.ChecksPage.getChecks(page:Integer?=1)
+POST    /api/v1/checks/:userTaskId  controllers.ChecksPage.check(userTaskId:Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
