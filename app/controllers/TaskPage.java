@@ -77,11 +77,8 @@ public class TaskPage extends Controller {
 					ut.save();
         		}
         		try (FileInputStream is = new FileInputStream(imageFile)) {
-        			String profileDirName = Application.imgPath + profileId;
-					File profileDir = Play.application().getFile(profileDirName);
-					if(!profileDir.exists()) profileDir.mkdir();
-					File imageToSave = Play.application().getFile(profileDirName 
-						+ File.separator + imageName);
+					File imageToSave = Play.application().getFile(Application.USERTASK_IMAGES 
+						+ profileId + File.separator + imageName);
     				if(!imageToSave.exists()) imageFile.createNewFile();
 					IOUtils.copy(is, new FileOutputStream(imageToSave));
         		} catch (IOException e) {}
@@ -90,7 +87,7 @@ public class TaskPage extends Controller {
 				return Application.errorResponse("Can't found image");    
 			}
 		} else {
-			return Application.errorResponse("body is null");
+			return Application.errorResponse("Body is null");
 		}
 	}
 

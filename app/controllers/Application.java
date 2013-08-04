@@ -15,10 +15,15 @@ import java.io.File;
 
 public class Application extends Controller {
 
-    public static final String imgPath = File.separator + "public" 
-                                       + File.separator + "images"
-                                       + File.separator + "usertasks"
-                                       + File.separator;
+    public static final String PATH_TO_ALL_IMAGES = File.separator + "public" 
+                                                  + File.separator + "images"
+                                                  + File.separator;
+
+    public static final String AVATAR_IMAGES    = PATH_TO_ALL_IMAGES + "avatars"
+                                                + File.separator;
+
+    public static final String  USERTASK_IMAGES = PATH_TO_ALL_IMAGES + "usertasks"
+                                                + File.separator;
   
     /**
      * Preview page

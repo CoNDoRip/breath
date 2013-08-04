@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Profile (
   , first_name     VARCHAR(30)     
   , last_name      VARCHAR(30)     
   , birthday       DATE
-  , gender         CHAR(1)
+  , gender         INT
   , level          INT             NOT NULL      DEFAULT 1
   , points         INT             NOT NULL      DEFAULT 0
   , completed      INT             NOT NULL      DEFAULT 0
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Profile (
   , avatar         VARCHAR(30)
 
   , CONSTRAINT Profile_Level FOREIGN KEY (level) REFERENCES Level(id)
-  , CONSTRAINT Profile_gender CHECK (gender = 'M' or gender = 'F')
+  , CONSTRAINT Profile_gender CHECK (gender = 1 or gender = 0)
   , CONSTRAINT Profile_greather_then_zero CHECK (points >= 0 
                                             and completed >= 0 
                                             and todo_list >= 0)

@@ -34,7 +34,7 @@ public class Profile {
     
     public Date birthday;
     
-    public Character gender;
+    public Integer gender;
     
     @Constraints.Min(value=1)
     public Integer level;
@@ -120,7 +120,7 @@ public class Profile {
         public String first_name;
         public String last_name;
         public Date birthday;
-        public Character gender;
+        public Integer gender;
         public Integer level;
         public Integer points;
         public Integer completed;

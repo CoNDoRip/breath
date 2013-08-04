@@ -16,11 +16,11 @@ INSERT INTO Level VALUES (12, 'God',                 'God.png');
 
 
 INSERT INTO Profile (email, password, first_name, last_name, gender) 
-          VALUES ('cndr.ip@gmail.com', '0aa371f7f51bd1312cef02e827f35122c46aa011', 'Idel', 'Pivnitskiy', 'M');
+          VALUES ('cndr.ip@gmail.com', '0aa371f7f51bd1312cef02e827f35122c46aa011', 'Idel', 'Pivnitskiy', 1);
 INSERT INTO Profile (email, password, first_name, last_name, gender) 
-          VALUES ('patric@mail.ru', '0aa371f7f51bd1312cef02e827f35122c46aa011', 'Patric', 'Grey', 'M');
+          VALUES ('patric@mail.ru', '0aa371f7f51bd1312cef02e827f35122c46aa011', 'Patric', 'Grey', 1);
 INSERT INTO Profile (email, password, first_name, last_name, gender) 
-          VALUES ('eva@mail.ru', '0aa371f7f51bd1312cef02e827f35122c46aa011', 'Eva', 'Jones', 'F');
+          VALUES ('eva@mail.ru', '0aa371f7f51bd1312cef02e827f35122c46aa011', 'Eva', 'Jones', 0);
 
 
 

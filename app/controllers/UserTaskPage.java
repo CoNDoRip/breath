@@ -37,8 +37,8 @@ public class UserTaskPage extends Controller {
 	@Transactional(readOnly=true)
 	public static Result getImage(Long id) {
 		UserTask ut = UserTask.findById(id);
-    	File file  = new File(Play.application().path().getAbsolutePath() 
-    		+ Application.imgPath + ut.profileId + File.separator + ut.image);
+    	File file  = Play.application().getFile(Application.USERTASK_IMAGES 
+    		+ ut.profileId + File.separator + ut.image);
     	return ok(file);
 	}
 

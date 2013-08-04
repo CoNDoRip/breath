@@ -3,37 +3,40 @@
 # ~~~~
 
 # Cap
-GET     /                           controllers.Application.index()
-GET     /about                      controllers.Application.about()
-GET     /download                   controllers.Application.download()
-GET     /contact                    controllers.Application.contact()
+GET     /                            controllers.Application.index()
+GET     /about                       controllers.Application.about()
+GET     /download                    controllers.Application.download()
+GET     /contact                     controllers.Application.contact()
 
 # API v1
 # Authorization
-POST    /api/v1/login               controllers.Authorization.login()
-GET     /api/v1/logout              controllers.Authorization.logout()
-PUT     /api/v1/changepassword      controllers.Authorization.changePassword()
+POST    /api/v1/login                controllers.Authorization.login()
+GET     /api/v1/logout               controllers.Authorization.logout()
+PUT     /api/v1/changepassword       controllers.Authorization.changePassword()
 
 # ProfilePage
-GET     /api/v1/profile             controllers.ProfilePage.getCurrentProfile()
-GET     /api/v1/profile/id:id       controllers.ProfilePage.getProfile(id:Long)
+GET     /api/v1/profile              controllers.ProfilePage.getCurrentProfile()
+PUT     /api/v1/profile              controllers.ProfilePage.updatePropfile()
+GET     /api/v1/profile/:id          controllers.ProfilePage.getProfile(id:Long)
+GET     /api/v1/profile/:id/avatar   controllers.ProfilePage.getAvatar(id:Long)
+PUT     /api/v1/profile/avatar       controllers.ProfilePage.updateAvatar()
 
 # Followers
-GET     /api/v1/followers           controllers.FollowersPage.getFollowers(page:Integer?=1)
-POST    /api/v1/followers/:follow   controllers.FollowersPage.follow(follow:Long)
-DELETE  /api/v1/followers/:follow   controllers.FollowersPage.unfollow(follow:Long)
+GET     /api/v1/followers            controllers.FollowersPage.getFollowers(page:Integer?=1)
+POST    /api/v1/followers/:follow    controllers.FollowersPage.follow(follow:Long)
+DELETE  /api/v1/followers/:follow    controllers.FollowersPage.unfollow(follow:Long)
 
 # TaskPage
-GET     /api/v1/tasks               controllers.TaskPage.getTasks(page:Integer?=1)
-POST    /api/v1/tasks/:taskId       controllers.TaskPage.doTask(taskId:Long)
+GET     /api/v1/tasks                controllers.TaskPage.getTasks(page:Integer?=1)
+POST    /api/v1/tasks/:taskId        controllers.TaskPage.doTask(taskId:Long)
 
 # UserTaskPage
-GET     /api/v1/usertasks           controllers.UserTaskPage.getUserTasks(page:Integer?=1)
-GET     /api/v1/usertasks/:id/image controllers.UserTaskPage.getImage(id:Long)
+GET     /api/v1/usertasks            controllers.UserTaskPage.getUserTasks(page:Integer?=1)
+GET     /api/v1/usertasks/:id/image  controllers.UserTaskPage.getImage(id:Long)
 
 # ChecksPage
-GET     /api/v1/checks              controllers.ChecksPage.getChecks(page:Integer?=1)
-POST    /api/v1/checks/:userTaskId  controllers.ChecksPage.check(userTaskId:Long)
+GET     /api/v1/checks               controllers.ChecksPage.getChecks(page:Integer?=1)
+POST    /api/v1/checks/:userTaskId   controllers.ChecksPage.check(userTaskId:Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                controllers.Assets.at(path="/public", file)

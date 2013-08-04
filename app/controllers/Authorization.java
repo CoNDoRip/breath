@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.Security;
 import play.mvc.Result;
@@ -15,6 +16,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
 
 import play.libs.Crypto;
+import java.io.File;
 
 public class Authorization extends Controller {
 
@@ -72,6 +74,8 @@ public class Authorization extends Controller {
 	private static Result registration(String email, String hash) {
 		Profile profile = new Profile(email, hash);
 		profile.save();
+		File profileDir = Play.application().getFile(Application.USERTASK_IMAGES + profile.id);
+		profileDir.mkdir();
 		return authenticate(profile, hash);
 	}
 
