@@ -1,17 +1,17 @@
 # --- !Ups
 
-INSERT INTO Level VALUES (1,  'Newbie',              'Newbie.gif');
-INSERT INTO Level VALUES (2,  'Pupil',               'Pupil.png');
-INSERT INTO Level VALUES (3,  'Teen',                'Teen.png');
-INSERT INTO Level VALUES (4,  'Adult',               'Adult.png');
-INSERT INTO Level VALUES (5,  'Expert',              'Expert.png');
-INSERT INTO Level VALUES (6,  'Master',              'Master.png');
-INSERT INTO Level VALUES (7,  'Professional',        'Professional.png');
-INSERT INTO Level VALUES (8,  'Leader',              'Leader.png');
-INSERT INTO Level VALUES (9,  'Guru',                'Guru.png');
-INSERT INTO Level VALUES (10, 'Idol',                'Idol.png');
-INSERT INTO Level VALUES (11, 'Higher Intelligence', 'HigherIntelligence.png');
-INSERT INTO Level VALUES (12, 'God',                 'God.png');
+INSERT INTO Level VALUES (1,  'Newbie',              'Newbie.gif',             300);
+INSERT INTO Level VALUES (2,  'Pupil',               'Pupil.png',              1300);
+INSERT INTO Level VALUES (3,  'Teen',                'Teen.png',               3700);
+INSERT INTO Level VALUES (4,  'Adult',               'Adult.png',              8500);
+INSERT INTO Level VALUES (5,  'Expert',              'Expert.png',             17000);
+INSERT INTO Level VALUES (6,  'Master',              'Master.png',             30800);
+INSERT INTO Level VALUES (7,  'Professional',        'Professional.png',       51800);
+INSERT INTO Level VALUES (8,  'Leader',              'Leader.png',             82200);
+INSERT INTO Level VALUES (9,  'Guru',                'Guru.png',               124500);
+INSERT INTO Level VALUES (10, 'Idol',                'Idol.png',               181500);
+INSERT INTO Level VALUES (11, 'Higher Intelligence', 'HigherIntelligence.png', 256300);
+INSERT INTO Level VALUES (12, 'God',                 'God.png',                352300);
 
 
 
@@ -50,33 +50,33 @@ INSERT INTO Task (title, level)
 
 
 
-INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (1, 1, 'task1.jpg');
-INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (1, 3, 'task3.jpg');
-INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (2, 1, 'task1.jpg');
-INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (2, 2, 'task2.jpg');
-INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (2, 3, 'task3.jpg');
-INSERT INTO UserTask (profileId, taskId, image)
-          VALUES (3, 1, 'task1.jpg');
+INSERT INTO UserTask (profileId, taskId, approved, image)
+          VALUES (1, 1, 1, 'task1.jpg');
+INSERT INTO UserTask (profileId, taskId, approved, image)
+          VALUES (1, 3, 1, 'task3.jpg');
+INSERT INTO UserTask (profileId, taskId, approved, image)
+          VALUES (2, 1, 0, 'task1.jpg');
+INSERT INTO UserTask (profileId, taskId, approved, image)
+          VALUES (2, 2, 2, 'task2.jpg');
+INSERT INTO UserTask (profileId, taskId, approved, image)
+          VALUES (2, 3, 1, 'task3.jpg');
+INSERT INTO UserTask (profileId, taskId, approved, image)
+          VALUES (3, 1, 1, 'task1.jpg');
 
 
 
-INSERT INTO Checks (profileId, usertaskId)
-          VALUES (1, 4);
-INSERT INTO Checks (profileId, usertaskId)
-          VALUES (1, 6);
-INSERT INTO Checks (profileId, usertaskId)
-          VALUES (2, 1);
-INSERT INTO Checks (profileId, usertaskId)
-          VALUES (3, 2);
-INSERT INTO Checks (profileId, usertaskId)
-          VALUES (3, 4);
-INSERT INTO Checks (profileId, usertaskId)
-          VALUES (3, 5);
+INSERT INTO Checks (profileId, usertaskId, status)
+          VALUES (1, 4, 1);
+INSERT INTO Checks (profileId, usertaskId, status)
+          VALUES (1, 6, 1);
+INSERT INTO Checks (profileId, usertaskId, status)
+          VALUES (2, 1, 1);
+INSERT INTO Checks (profileId, usertaskId, status)
+          VALUES (3, 2, 1);
+INSERT INTO Checks (profileId, usertaskId, status)
+          VALUES (3, 4, 1);
+INSERT INTO Checks (profileId, usertaskId, status)
+          VALUES (3, 5, 1);
 
 
 -------------------------------------------------------------------------------

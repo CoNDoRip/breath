@@ -4,10 +4,11 @@
 
 -------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS Level (
-    id             INT             PRIMARY KEY
-  , name           VARCHAR(20)     UNIQUE
-  , image          VARCHAR(25)     UNIQUE
-  , CONSTRAINT Level_greather_then_zero CHECK (id > 0)
+    id              INT             PRIMARY KEY
+  , name            VARCHAR(20)     UNIQUE
+  , image           VARCHAR(25)     UNIQUE
+  , needToNextLevel INT             UNIQUE
+  , CONSTRAINT Level_greather_then_zero CHECK (id > 0 and needToNextLevel > 0)
 );
 
 
@@ -96,7 +97,6 @@ CREATE TABLE IF NOT EXISTS UserTask (
   , CONSTRAINT UserTask_profileId FOREIGN KEY (profileId) REFERENCES Profile(id)
   , CONSTRAINT UserTask_taskId    FOREIGN KEY (taskId)    REFERENCES Task(id)
   , CONSTRAINT UserTask_unique    UNIQUE (profileId, taskId)
-  , CONSTRAINT UserTask_datetime  CHECK (datetime = CURRENT_DATE)
   , CONSTRAINT UserTask_greather_then_zero CHECK (liked >= 0
                                               and approved >= 0
                                               and rejected >= 0)
@@ -112,10 +112,13 @@ CREATE TABLE Checks (
     id             NUMERIC         PRIMARY KEY   DEFAULT nextval('Checks_seq')
   , profileId      NUMERIC         NOT NULL
   , usertaskId     NUMERIC         NOT NULL
+  , status         INT             NOT NULL
+  , datetime       DATE            NOT NULL      DEFAULT CURRENT_DATE
 
   , CONSTRAINT Checks_unique     UNIQUE (profileId, usertaskId)
   , CONSTRAINT Checks_profileId  FOREIGN KEY (profileId)  REFERENCES Profile(id)
   , CONSTRAINT Checks_usertaskId FOREIGN KEY (usertaskId) REFERENCES UserTask(id)
+  , CONSTRAINT Checks_status CHECK (status = -1 or status = 1)
 );
 
 ALTER SEQUENCE Checks_seq OWNED BY Checks.id;

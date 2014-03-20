@@ -22,6 +22,9 @@ public class Level {
     @Constraints.MaxLength(value=25)
     public String image;
 
+    @Constraints.Required
+    public Integer needToNextLevel;
+
     public Level() {
     }
 

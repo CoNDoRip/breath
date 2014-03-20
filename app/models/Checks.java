@@ -6,6 +6,7 @@ import play.data.validation.Constraints;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Date;
 
 /**
  * Checks entity managed by JPA
@@ -24,6 +25,12 @@ public class Checks implements PageView {
     @Constraints.Required
     public Long usertaskId;
 
+    @Constraints.Required
+    public Integer status;
+
+    @Constraints.Required
+    public Date datetime;
+
     public Checks() {
     }
 
@@ -31,9 +38,10 @@ public class Checks implements PageView {
     * Default constructor for adding new check
     * that set profileId and usertaskId
     */
-    public Checks(Long profileId, Long usertaskId) {
+    public Checks(Long profileId, Long usertaskId, Integer status) {
         this.profileId = profileId;
         this.usertaskId = usertaskId;
+        this.status = status;
     }
 
     /**

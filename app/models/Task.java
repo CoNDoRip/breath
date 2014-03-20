@@ -75,6 +75,17 @@ public class Task implements PageView {
 
         return listOfTasks;
     }
+
+    /**
+    * 
+    */
+    public static int countTasks(Profile profile) {
+        return JPA.em()
+            .createQuery("from Task where level <= :lev and datetime <= CURRENT_DATE and id not in (select taskId from UserTask where profileId = :pi and status != 'rejected') order by datetime desc")
+            .setParameter("lev", profile.level)
+            .setParameter("pi", profile.id)
+            .getResultList().size();
+    }
     
     /**
      * Insert this new task.

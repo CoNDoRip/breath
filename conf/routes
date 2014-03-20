@@ -38,5 +38,8 @@ GET     /api/v1/usertasks/:id/image  controllers.UserTaskPage.getImage(id:Long)
 GET     /api/v1/checks               controllers.ChecksPage.getChecks(page:Integer?=1)
 POST    /api/v1/checks/:userTaskId   controllers.ChecksPage.check(userTaskId:Long)
 
+# RatingPage
+GET     /api/v1/rating               controllers.RatingPage.getRating(page:Integer?=1)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                controllers.Assets.at(path="/public", file)

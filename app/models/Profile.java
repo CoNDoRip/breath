@@ -4,6 +4,7 @@ import play.db.jpa.JPA;
 import javax.persistence.*;
 import play.data.validation.Constraints;
 
+import java.util.List;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,7 +14,7 @@ import java.text.SimpleDateFormat;
  */
 @Entity 
 @SequenceGenerator(name = "profile_seq", sequenceName = "profile_seq")
-public class Profile {
+public class Profile implements PageView {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
@@ -86,6 +87,17 @@ public class Profile {
             .createQuery("from Profile where lower(email) = :em")
             .setParameter("em", email.toLowerCase())
             .getSingleResult();
+    }
+
+    /**
+    * 
+    */
+    public static List<Profile> getRating(Integer page) {
+        return JPA.em()
+            .createQuery("from Profile order by points")
+            .setFirstResult((page - 1) * PAGESIZE)
+            .setMaxResults(PAGESIZE)
+            .getResultList();
     }
     
     /**

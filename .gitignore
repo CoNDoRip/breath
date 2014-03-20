@@ -27,3 +27,6 @@ prod
 /.target
 /public/images/usertasks
 /public/images/avatars
+
+# Sublime Files #
+*.sublime-*

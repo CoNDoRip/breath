@@ -10,6 +10,7 @@ import play.db.jpa.Transactional;
 import javax.persistence.NoResultException;
 
 import models.Profile;
+import models.Task;
 import org.codehaus.jackson.JsonNode;
 
 import java.io.File;
@@ -34,6 +35,8 @@ public class ProfilePage extends Controller {
 	@Transactional(readOnly=true)
 	public static Result getProfile(Long id) {
 		Profile p = Profile.findById(id);
+		p.todo_list = Task.countTasks(p);
+		p.update();
 		Profile.ProfileSafe ps = new Profile.ProfileSafe(p);
 		return ok(Json.toJson(ps));
 	}

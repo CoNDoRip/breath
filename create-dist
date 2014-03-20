@@ -8,4 +8,4 @@ scp ./dist/breath-server-?.?.zip breath@37.187.46.135:/home/breath
 play clean-all
 
 # Connect to the server for running script "deploy"
-ssh breath@37.187.46.135 'source deploy'
+ssh breath@37.187.46.135 #'source deploy'

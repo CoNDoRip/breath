@@ -56,7 +56,7 @@ public class ChecksPage extends Controller {
         				}
         				ut.checkStatus();
         				ut.update();
-        				Checks check = new Checks(profileId, ut.id);
+        				Checks check = new Checks(profileId, ut.id, status);
         				check.save();
         				return Application.goodResponse("UserTask " + userTaskId.toString() 
         					+ " successfully checked");

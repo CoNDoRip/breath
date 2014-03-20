@@ -118,6 +118,14 @@ public class UserTask implements PageView {
     public void checkStatus() {
         if(this.approved > 5 && this.approved > this.rejected * 3) {
             this.status = UserTaskStatus.APPROVED.getStatus();
+            Profile profile = Profile.findById(this.profileId);
+            profile.completed++;
+            profile.points += 100 * profile.level;
+            Level currLevel = Level.findById(profile.level);
+            if(profile.points >= currLevel.needToNextLevel) {
+                profile.level++;
+            }
+            profile.update();
         } else if(this.rejected > 5 && this.rejected > this.approved * 3) {
             this.status = UserTaskStatus.REJECTED.getStatus();
         }
